@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace InfoTestMe.WebAPI.Models
+namespace InfoTestMe.WebAPI.Models.Data
 {
     public class TestQuestion
     {
