@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTestMe.WebAPI", "InfoTestMe.WebAPI\InfoTestMe.WebAPI.csproj", "{20472779-09A3-4B71-AC65-FC28D6D0EDE8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfoTestMe.Admin.Web", "InfoTestMe.Admin.Web\InfoTestMe.Admin.Web.csproj", "{B58B255B-88A8-473C-AB4D-EB5DA6B41F62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{20472779-09A3-4B71-AC65-FC28D6D0EDE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{20472779-09A3-4B71-AC65-FC28D6D0EDE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{20472779-09A3-4B71-AC65-FC28D6D0EDE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{20472779-09A3-4B71-AC65-FC28D6D0EDE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B58B255B-88A8-473C-AB4D-EB5DA6B41F62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B58B255B-88A8-473C-AB4D-EB5DA6B41F62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B58B255B-88A8-473C-AB4D-EB5DA6B41F62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B58B255B-88A8-473C-AB4D-EB5DA6B41F62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
