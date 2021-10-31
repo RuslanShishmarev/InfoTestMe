@@ -53,5 +53,17 @@ namespace InfoTestMe.Admin.Web.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("register/user")]
+        public IActionResult CheckInForUser([FromBody] object userModel)
+        {
+            return Ok(userModel.ToString());
+        }
+
+        [HttpPost("register/author")]
+        public IActionResult CheckInFroAuthor([FromBody] object authorModel)
+        {
+            return Ok(authorModel.ToString());
+        }
     }
 }
