@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InfoTestMe.Admin.Web.Models.Data
 {
     public class CoursePage
     {
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
         public string Name { get; set; }
-        public List<CourseBlock> Blocks { get; set; }
+        public List<CourseBlock> Blocks { get; set; } = new List<CourseBlock>();
 
         public string AudioFileName { get; set; }
         public byte[] AudioFile { get; set; }
 
-        public Guid ThemeId { get; set; }
+        [ForeignKey(nameof(ThemeId))]
+        public int ThemeId { get; set; }
         public CourseTheme Theme { get; set; }
     }
 }

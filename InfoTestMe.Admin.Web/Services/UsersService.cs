@@ -1,4 +1,6 @@
-﻿using InfoTestMe.Admin.Web.Models.Data;
+﻿using InfoTestMe.Admin.Web.Models.Abstractions;
+using InfoTestMe.Admin.Web.Models.Data;
+using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Text;
 
 namespace InfoTestMe.Admin.Web.Services
 {
-    public class UsersService
+    public class UsersService : ICommonService<User, UserDTO>
     {
         public (string userName, string userPassword) GetUserLoginPassFromBasicAuth(HttpRequest request)
         {
@@ -57,6 +59,31 @@ namespace InfoTestMe.Admin.Web.Services
         {
             var user = _users.FirstOrDefault(u => u.Email == login && u.Password == password);
             return user;
+        }
+
+        public User Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UserDTO GetDto(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Create(UserDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(UserDTO dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
