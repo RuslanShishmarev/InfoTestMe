@@ -25,6 +25,10 @@ namespace InfoTestMe.Admin.Web.Controllers
             _userService = new UsersService(db);
         }
 
+        /// <summary>
+        /// Получение токена
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("token")]
         public IActionResult GetToken()
         {
