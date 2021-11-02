@@ -9,7 +9,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
             return new CourseBlockDTO()
             {
                 Id = courseBlock.Id,
-                Description = courseBlock.Text,
+                Text = courseBlock.Text,
                 Image = courseBlock.Image,
             };
         }
