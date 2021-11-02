@@ -14,7 +14,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Link = coursePage.Link,
                 AudioFileName = coursePage.AudioFileName,
                 AudioFile = coursePage.AudioFile,
-                Blocks = coursePage.Blocks?.Select(c => c.Id).ToList(),
+                Blocks = coursePage.Blocks?.Select(c => c.ToDTO()).ToList(),
             };
         }
     }

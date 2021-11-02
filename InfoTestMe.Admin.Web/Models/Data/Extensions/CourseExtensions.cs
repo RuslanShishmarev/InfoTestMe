@@ -17,8 +17,8 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Name = course.Name,
                 Description = course.Description,
                 Image = course.Image,
-                Themes = course.Themes?.Select(c => c.Id).ToList(),
-                AllStudents = course.Users?.Select(c => c.Id).ToList(),
+                Themes = course.Themes?.Select(c => c.ToDTO()).ToList(),
+                AllStudents = course.Users?.Select(c => c.ToShortDTO()).ToList(),
             };
         }
     }

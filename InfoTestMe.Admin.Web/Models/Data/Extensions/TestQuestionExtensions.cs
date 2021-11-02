@@ -12,7 +12,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Id = testQuestion.Id,
                 Text = testQuestion.Text,
                 Image = testQuestion.Image,
-                Answers = testQuestion.Answers?.Select(c => c.Id).ToList(),
+                Answers = testQuestion.Answers?.Select(c => c.ToDTO()).ToList(),
             };
         }
     }

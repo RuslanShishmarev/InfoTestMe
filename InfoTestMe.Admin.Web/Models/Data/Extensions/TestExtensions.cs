@@ -12,8 +12,8 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Id = test.Id,
                 Name = test.Name,
                 Image = test.Image,
-                Questions = test.Questions?.Select(c => c.Id).ToList(),
-                AllStudents = test.Users?.Select(c => c.Id).ToList(),
+                Questions = test.Questions?.Select(c => c.ToDTO()).ToList(),
+                AllStudents = test.Users?.Select(c => c.ToShortDTO()).ToList(),
             };
         }
     }
