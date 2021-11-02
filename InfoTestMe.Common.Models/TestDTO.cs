@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfoTestMe.Common.Models
 {
@@ -14,5 +11,5 @@ namespace InfoTestMe.Common.Models
         public List<int> Questions { get; set; }
         public List<UserShortDTO> AllStudents { get; set; }
 
-}
+    }
 }
