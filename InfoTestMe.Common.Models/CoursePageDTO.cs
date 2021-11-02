@@ -15,6 +15,6 @@ namespace InfoTestMe.Common.Models
         public byte[] Image { get; set; }
         public string AudioFileName { get; set; }
         public byte[] AudioFile { get; set; }
-        public List<CourseBlockDTO> Blocks { get; set; } = new List<CourseBlockDTO>();
+        public List<CourseBlockDTO> Blocks { get; set; }
     }
 }
