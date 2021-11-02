@@ -2,8 +2,10 @@
 
 namespace InfoTestMe.Common.Models
 {
-    public class AuthorDTO : UserCommonDTO
+    public class CourseBlockDTO
     {
+        public int Id { get; set; }
         public string Description { get; set; }
+        public byte[] Image { get; set; }
     }
 }
