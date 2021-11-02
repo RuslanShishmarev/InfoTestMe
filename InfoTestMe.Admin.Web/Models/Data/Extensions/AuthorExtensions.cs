@@ -21,5 +21,15 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Tests = author.Tests?.Select(c => c.Id).ToList(),
             };
         }
+        public static AuthorShortDTO ToShortDTO(this Author author)
+        {
+            return new AuthorShortDTO()
+            {
+                Id = author.Id,
+                FirstName = author.FirstName,
+                LastName = author.LastName,
+                Image = author.Image,
+            };
+        }
     }
 }

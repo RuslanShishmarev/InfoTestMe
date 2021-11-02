@@ -10,6 +10,7 @@ namespace InfoTestMe.Admin.Web.Models.Data
     {
         [Key]
         public int Id { get; set; }
+        public List<TestQuestion> Questions { get; set; }
 
         [ForeignKey(nameof(AuthorId))]
         public int AuthorId { get; set; }
