@@ -11,7 +11,7 @@ namespace InfoTestMe.Admin.Web.Models.Data
         public int Id { get; set; }
         public string Name { get; set; }
         public List<CourseBlock> Blocks { get; set; } = new List<CourseBlock>();
-
+        public string Link { get; set; }
         public string AudioFileName { get; set; }
         public byte[] AudioFile { get; set; }
 
