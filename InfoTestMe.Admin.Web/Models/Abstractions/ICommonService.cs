@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace InfoTestMe.Admin.Web.Models.Abstractions
 {
-    public interface ICommonService<T, TDto>
+    public interface ICommonService<TDto>
     {
-        T Get(Guid id);
-        TDto GetDto(Guid id);
-        void Create(TDto dto);
-        void Update(TDto dto);
-        void Delete(Guid id);
+        TDto Get(int id);
+        List<TDto> GetAll(int startPosition = 0, int countModels = 10);
+        bool Create(TDto dto);
+        bool Update(TDto dto);
+        bool Delete(int id);
     }
 }

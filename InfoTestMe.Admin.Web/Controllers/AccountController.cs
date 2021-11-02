@@ -1,5 +1,7 @@
 ﻿using InfoTestMe.Admin.Web.Models;
+using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Services;
+using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -16,14 +18,11 @@ namespace InfoTestMe.Admin.Web.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-
-        private readonly ILogger<AccountController> _logger;
         private readonly UsersService _userService;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(InfoTestMeDataContext db)
         {
-            _logger = logger;
-            _userService = new UsersService();
+            _userService = new UsersService(db);
         }
 
         [HttpPost("token")]
@@ -54,16 +53,67 @@ namespace InfoTestMe.Admin.Web.Controllers
             return Ok(response);
         }
 
-        [HttpPost("register/user")]
-        public IActionResult CheckInForUser([FromBody] object userModel)
+        /// <summary>
+        /// Создание нового пользователя, регистрация
+        /// </summary>
+        /// <param name="userDTO"></param>
+        /// <returns></returns>
+        [HttpPost("user")]
+        public IActionResult CheckInForUser([FromBody] UserDTO userDTO)
         {
-            return Ok(userModel.ToString());
+            if(userDTO != null)
+            {
+                bool actionResult =  _userService.Create(userDTO);
+                return actionResult ? Ok() : StatusCode(500);
+            }
+            return BadRequest();
         }
 
-        [HttpPost("register/author")]
-        public IActionResult CheckInFroAuthor([FromBody] object authorModel)
+        /// <summary>
+        /// Обновление пользователя
+        /// </summary>
+        /// <param name="userDTO"></param>
+        /// <returns></returns>
+        [HttpPatch("user")]
+        public IActionResult UpdateUser([FromBody] UserDTO userDTO)
         {
-            return Ok(authorModel.ToString());
+            if (userDTO != null)
+            {
+                bool actionResult = _userService.Update(userDTO);
+                return actionResult ? Ok() : StatusCode(500);
+            }
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Удаление пользователя
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("user/{id}")]
+        public IActionResult UpdateUser(int id)
+        {
+            if (id != 0)
+            {
+                bool actionResult = _userService.Delete(id);
+                return actionResult ? Ok() : StatusCode(500);
+            }
+            return BadRequest();
+        }
+
+        /// <summary>
+        /// Регистрация автора
+        /// </summary>
+        /// <param name="authorDTO"></param>
+        /// <returns></returns>
+        [HttpPost("author")]
+        public IActionResult CheckInFroAuthor([FromBody] AuthorDTO authorDTO)
+        {
+            if(authorDTO != null)
+            {
+
+            }
+            return Ok();
         }
     }
 }

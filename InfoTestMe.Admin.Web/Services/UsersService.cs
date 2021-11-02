@@ -1,5 +1,6 @@
 ﻿using InfoTestMe.Admin.Web.Models.Abstractions;
 using InfoTestMe.Admin.Web.Models.Data;
+using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -10,8 +11,57 @@ using System.Text;
 
 namespace InfoTestMe.Admin.Web.Services
 {
-    public class UsersService : ICommonService<User, UserDTO>
+    public class UsersService : CommonService<UserDTO>, IUserService
     {
+        public UsersService(InfoTestMeDataContext db) : base(db) { }
+
+        #region PRIVATE METHODS
+        private User GetUser(string login, string password)
+        {
+            var user = DB.Users.FirstOrDefault(u => u.Email == login && u.Password == password);
+            return user;
+        }
+
+        private User GetUser(int id)
+        {
+            var user = DB.Users.Find(id);
+            return user;
+        }
+
+        private void CreateUser(UserDTO dto)
+        {
+            User newUser = new User()
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Password = dto.Password,
+                Image = dto.Image,
+                RegistrationDate = DateTime.Now
+            };
+            DB.Users.Add(newUser);
+        }
+
+        private void UpdateUser(UserDTO dto)
+        {
+            User user = GetUser(dto.Id);
+
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.Email = dto.Email;
+            user.Password = dto.Password;
+            user.Image = dto.Image;
+
+            DB.Users.Update(user);
+        }
+
+        private void DeleteUser(int id)
+        {
+            User user = GetUser(id);
+            DB.Users.Remove(user);
+        }
+        #endregion
+
         public (string userName, string userPassword) GetUserLoginPassFromBasicAuth(HttpRequest request)
         {
             string userName = "";
@@ -35,8 +85,8 @@ namespace InfoTestMe.Admin.Web.Services
             if (currentUser != null)
             {
                 currentUser.LastLoginDate = DateTime.Now;
-                //_db.Users.Update(currentUser);
-                //_db.SaveChanges();
+                DB.Users.Update(currentUser);
+                DB.SaveChanges();
 
                 var claims = new List<Claim>
                 {
@@ -49,41 +99,44 @@ namespace InfoTestMe.Admin.Web.Services
             }
             return null;
         }
-
-        private List<User> _users = new List<User>()
+        
+        public UserDTO Get(int id)
         {
+            return DB.Users.FirstOrDefault(u => u.Id == id)?.ToDTO();
+        }        
 
-        };
-
-        public User GetUser(string login, string password)
+        public bool Create(UserDTO dto)
         {
-            var user = _users.FirstOrDefault(u => u.Email == login && u.Password == password);
-            return user;
+            return CreateOrUpdateActionData(CreateUser, dto);
         }
 
-        public User Get(Guid id)
+        public bool Update(UserDTO dto)
         {
-            throw new NotImplementedException();
+            return CreateOrUpdateActionData(UpdateUser, dto);
         }
 
-        public UserDTO GetDto(Guid id)
+        public bool Delete(int id)
         {
-            throw new NotImplementedException();
+            return DeleteActionData(DeleteUser, id);
         }
 
-        public void Create(UserDTO dto)
+        public List<UserDTO> GetAll(int startPosition, int countModels)
         {
-            throw new NotImplementedException();
-        }
+            List<UserDTO> userDtos = new List<UserDTO>();
 
-        public void Update(UserDTO dto)
-        {
-            throw new NotImplementedException();
-        }
+            int allCount = DB.Users.Count();
 
-        public void Delete(Guid id)
-        {
-            throw new NotImplementedException();
+            if (allCount <= startPosition)
+            {
+                return userDtos;
+            }
+            else if (allCount < startPosition + countModels)
+            {
+                countModels = allCount - startPosition;
+            }
+
+            userDtos = DB.Users.ToList().GetRange(startPosition, countModels).Select(u => u.ToDTO()).ToList();
+            return userDtos;
         }
     }
 }
