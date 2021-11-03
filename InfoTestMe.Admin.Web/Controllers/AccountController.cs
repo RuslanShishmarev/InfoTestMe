@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using TaskManagerCourse.Api.Models;
 
@@ -18,11 +19,13 @@ namespace InfoTestMe.Admin.Web.Controllers
     [Route("[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly UsersService _userService;
+        private readonly UserService _userService;
+        private readonly AuthorService _authorService;
 
         public AccountController(InfoTestMeDataContext db)
         {
-            _userService = new UsersService(db);
+            _userService = new UserService(db);
+            _authorService = new AuthorService(db);
         }
 
         /// <summary>
@@ -95,7 +98,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("user/{id}")]
-        public IActionResult UpdateUser(int id)
+        public IActionResult DeleteUser(int id)
         {
             if (id != 0)
             {
@@ -111,13 +114,46 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// <param name="authorDTO"></param>
         /// <returns></returns>
         [HttpPost("author")]
-        public IActionResult CheckInFroAuthor([FromBody] AuthorDTO authorDTO)
+        public IActionResult CheckInAuthor([FromBody] AuthorDTO authorDTO)
         {
-            if(authorDTO != null)
+            if(_userService.IsValid(authorDTO))
             {
-
+                bool actionResult = _authorService.Create(authorDTO);
+                return actionResult ? Ok() : StatusCode(500);
             }
             return Ok();
+        }
+
+        /// <summary>
+        /// Обновление автора
+        /// </summary>
+        /// <param name="authorDTO"></param>
+        /// <returns></returns>
+        [HttpPatch("author")]
+        public IActionResult UpdateAuthor([FromBody] AuthorDTO authorDTO)
+        {
+            if (_userService.IsValid(authorDTO))
+            {
+                bool actionResult = _authorService.Update(authorDTO);
+                return actionResult ? Ok() : StatusCode(500);
+            }
+            return Ok();
+        }
+
+        /// <summary>
+        /// Удаление автора
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("author/{id}")]
+        public IActionResult DeleteAuthor(int id)
+        {
+            if (id != 0)
+            {
+                bool actionResult = _authorService.Delete(id);
+                return actionResult ? Ok() : StatusCode(500);
+            }
+            return BadRequest();
         }
     }
 }

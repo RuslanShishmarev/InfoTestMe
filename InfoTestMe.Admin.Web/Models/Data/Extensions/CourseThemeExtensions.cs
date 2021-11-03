@@ -10,6 +10,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
             return new CourseThemeDTO()
             {
                 Id = courseTheme.Id,
+                CourseId = courseTheme.CourseId,
                 Name = courseTheme.Name,
                 Pages = courseTheme.Pages?.Select(c => c.Id).ToList(),
             };

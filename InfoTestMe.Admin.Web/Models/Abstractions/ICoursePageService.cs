@@ -2,8 +2,7 @@
 
 namespace InfoTestMe.Admin.Web.Models.Abstractions
 {
-    public interface ICourseService : ICommonService<CourseDTO>
+    public interface ICoursePageService : ICommonService<CoursePageDTO>
     {
-
     }
 }

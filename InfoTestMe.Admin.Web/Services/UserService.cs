@@ -11,9 +11,9 @@ using System.Text;
 
 namespace InfoTestMe.Admin.Web.Services
 {
-    public class UsersService : CommonService<UserDTO>, IUserService
+    public class UserService : CommonService<UserDTO>, IUserService
     {
-        public UsersService(InfoTestMeDataContext db) : base(db) { }
+        public UserService(InfoTestMeDataContext db) : base(db) { }
 
         #region PRIVATE METHODS
         private User GetUser(string login, string password)

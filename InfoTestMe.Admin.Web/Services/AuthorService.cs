@@ -76,7 +76,7 @@ namespace InfoTestMe.Admin.Web.Services
             return DeleteActionData(DeleteAuthor, id);
         }
 
-        public List<AuthorShortDTO> GetAll(int startPosition = 0, int countModels = 10)
+        public List<AuthorShortDTO> GetByRange(int startPosition = 0, int countModels = 10)
         {
             List<AuthorShortDTO> authorDtos = new List<AuthorShortDTO>();
 

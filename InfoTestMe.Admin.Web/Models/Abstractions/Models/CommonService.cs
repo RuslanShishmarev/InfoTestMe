@@ -1,5 +1,8 @@
 ﻿using InfoTestMe.Admin.Web.Models.Data;
+using InfoTestMe.Common.Models;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace InfoTestMe.Admin.Web.Models.Abstractions
 {
@@ -38,6 +41,33 @@ namespace InfoTestMe.Admin.Web.Models.Abstractions
             {
                 return false;
             }
+        }
+
+        private bool IsValidForAllPropertiesNull(object obj)
+        {
+            Type objType = obj.GetType();
+            IList<PropertyInfo> properties = new List<PropertyInfo>(objType.GetProperties());
+
+            foreach (PropertyInfo prop in properties)
+            {
+                object propValue = prop.GetValue(obj, null);
+                if (propValue == null)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public bool IsValid(UserCommonDTO userCommonDTO)
+        {
+            if (userCommonDTO == null
+                || string.IsNullOrEmpty(userCommonDTO.Email)
+                || string.IsNullOrEmpty(userCommonDTO.Password))
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -10,6 +10,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
             return new TestQuestionDTO()
             {
                 Id = testQuestion.Id,
+                TestId = testQuestion.TestId,
                 Text = testQuestion.Text,
                 Image = testQuestion.Image,
                 Answers = testQuestion.Answers?.Select(c => c.ToDTO()).ToList(),
