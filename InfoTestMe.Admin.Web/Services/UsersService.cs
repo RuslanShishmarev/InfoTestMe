@@ -120,9 +120,9 @@ namespace InfoTestMe.Admin.Web.Services
             return DeleteActionData(DeleteUser, id);
         }
 
-        public List<UserDTO> GetAll(int startPosition, int countModels)
+        public List<UserShortDTO> GetByRange(int startPosition, int countModels)
         {
-            List<UserDTO> userDtos = new List<UserDTO>();
+            List<UserShortDTO> userDtos = new List<UserShortDTO>();
 
             int allCount = DB.Users.Count();
 
@@ -135,7 +135,7 @@ namespace InfoTestMe.Admin.Web.Services
                 countModels = allCount - startPosition;
             }
 
-            userDtos = DB.Users.ToList().GetRange(startPosition, countModels).Select(u => u.ToDTO()).ToList();
+            userDtos = DB.Users.ToList().GetRange(startPosition, countModels).Select(u => u.ToShortDTO()).ToList();
             return userDtos;
         }
     }

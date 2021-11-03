@@ -19,7 +19,7 @@ namespace InfoTestMe.Admin.Web.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
+        [HttpGet("status")]
         public ActionResult<string> CheckApi()
         {
             return Ok("Server is ready " + DateTime.Now);

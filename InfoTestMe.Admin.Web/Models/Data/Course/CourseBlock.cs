@@ -10,7 +10,6 @@ namespace InfoTestMe.Admin.Web.Models.Data
         public int Id { get; set; }
         public byte[] Image { get; set; }
         public string Text { get; set; }
-        public string LinkMaterial { get; set; }
 
         [ForeignKey(nameof(PageId))]
         public int PageId { get; set; }

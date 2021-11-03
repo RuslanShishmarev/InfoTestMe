@@ -8,8 +8,7 @@ namespace InfoTestMe.Admin.Web.Models.Abstractions
 {
     public interface ICommonService<TDto>
     {
-        TDto Get(int id);
-        List<TDto> GetAll(int startPosition = 0, int countModels = 10);
+        TDto Get(int id);        
         bool Create(TDto dto);
         bool Update(TDto dto);
         bool Delete(int id);

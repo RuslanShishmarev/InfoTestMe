@@ -20,6 +20,7 @@ namespace InfoTestMe.Admin.Web.Models.Data
 
         public InfoTestMeDataContext(DbContextOptions<InfoTestMeDataContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
     }

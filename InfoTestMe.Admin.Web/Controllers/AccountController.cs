@@ -65,7 +65,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         [HttpPost("user")]
         public IActionResult CheckInForUser([FromBody] UserDTO userDTO)
         {
-            if(userDTO != null)
+            if(userDTO != null || userDTO.Email != null)
             {
                 bool actionResult =  _userService.Create(userDTO);
                 return actionResult ? Ok() : StatusCode(500);

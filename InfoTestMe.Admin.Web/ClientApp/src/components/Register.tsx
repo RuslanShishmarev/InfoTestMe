@@ -44,12 +44,12 @@ export default function Register() {
                         lastname: register.lastname,
                         email: register.email,
                         description: register.description,
-                        image: register.image,
+                        //image: register.image,
                         password: register.password,
                     })
             };
 
-            fetch(`account/register/author`, requestOptions).then(response => response.json());
+            fetch(`account/author`, requestOptions).then(response => response.json());
         }
     }
 
@@ -73,7 +73,7 @@ export default function Register() {
                     <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}
                 /></p>
                 <p>Повторите пароль:
-                    <input type="text" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
+                    <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
                 </p>
                 <input type="submit" />
             </form>

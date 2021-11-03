@@ -4,14 +4,16 @@ using InfoTestMe.Admin.Web.Models.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace InfoTestMe.Admin.Web.Migrations
 {
     [DbContext(typeof(InfoTestMeDataContext))]
-    partial class InfoTestMeDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211103165150_add-new-property")]
+    partial class addnewproperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,6 +110,9 @@ namespace InfoTestMe.Admin.Web.Migrations
 
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("LinkMaterial")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("PageId")
                         .HasColumnType("int");
