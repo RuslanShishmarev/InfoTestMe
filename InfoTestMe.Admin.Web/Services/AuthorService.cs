@@ -76,9 +76,9 @@ namespace InfoTestMe.Admin.Web.Services
             return DeleteActionData(DeleteAuthor, id);
         }
 
-        public List<AuthorDTO> GetAll(int startPosition = 0, int countModels = 10)
+        public List<AuthorShortDTO> GetAll(int startPosition = 0, int countModels = 10)
         {
-            List<AuthorDTO> authorDtos = new List<AuthorDTO>();
+            List<AuthorShortDTO> authorDtos = new List<AuthorShortDTO>();
 
             int allCount = DB.Authors.Count();
 
@@ -91,7 +91,7 @@ namespace InfoTestMe.Admin.Web.Services
                 countModels = allCount - startPosition;
             }
 
-            authorDtos = DB.Authors.ToList().GetRange(startPosition,countModels).Select(a => a.ToDTO()).ToList();
+            authorDtos = DB.Authors.ToList().GetRange(startPosition,countModels).Select(a => a.ToShortDTO()).ToList();
             return authorDtos;
         }
     }
