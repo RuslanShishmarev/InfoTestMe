@@ -16,11 +16,10 @@ namespace InfoTestMe.Admin.Web.Models.Data
         //for tests
         public DbSet<Test> Tests { get; set; }
         public DbSet<TestQuestion> TestQuestions { get; set; }
-        public DbSet<TestAnswer> TestAnswers { get; set; }
 
         public InfoTestMeDataContext(DbContextOptions<InfoTestMeDataContext> options) : base(options)
         {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
     }
