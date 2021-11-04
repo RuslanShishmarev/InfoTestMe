@@ -31,25 +31,26 @@ namespace InfoTestMe.Admin.Web.Services
                 Description = dto.Description,
                 Image = dto.Image
             };
+            DB.Courses.Add(course);
 
-
-            if(dto.Themes?.Count > 0)
+            if (dto.Themes?.Count > 0)
             {
+                DB.SaveChanges();
+
                 List<CourseTheme> themes = new List<CourseTheme>();
                 foreach(CourseThemeDTO themeDTO in dto.Themes)
                 {
                     CourseTheme courseTheme = new CourseTheme()
                     {
+                        CourseId = course.Id,
                         Name = themeDTO.Name                        
                     };
 
                     themes.Add(courseTheme);
                 }
 
-                course.Themes.AddRange(themes);
-            }
-
-            DB.Courses.Add(course);
+                DB.CourseThemes.AddRange(themes);
+            }            
         }
 
         private void UpdateCourse(CourseDTO dto)
@@ -90,6 +91,16 @@ namespace InfoTestMe.Admin.Web.Services
         public bool Delete(int id)
         {
             return DeleteActionData(DeleteCourse, id);
+        }
+
+        public IEnumerable<CourseDTO> GetByAuthorId(int authorId)
+        {
+            return DB.Courses.Include(c => c.Themes).Where(c => c.AuthorId == authorId).Select(c => c.ToDTO());
+        }
+
+        public IEnumerable<CourseDTO> GetByUserId(int userId)
+        {
+            return DB.Courses.Include(c => c.Themes).Include(c => c.Users).Where(c => c.Users.Any(u => u.Id == userId)).Select(c => c.ToDTO());
         }
     }
 }

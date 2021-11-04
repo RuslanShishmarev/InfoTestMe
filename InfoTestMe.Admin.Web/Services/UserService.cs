@@ -60,6 +60,38 @@ namespace InfoTestMe.Admin.Web.Services
             User user = GetUser(id);
             DB.Users.Remove(user);
         }
+
+        public void AddUserToCourse(int userId, int courseId)
+        {
+            User user = GetUser(userId);
+
+            Course course = DB.Courses.Find(courseId);
+
+            if (user != null && course != null)
+            {
+                course.Users.Add(user);
+            }
+        }
+
+        public void AddUserToCourse(User user, int courseId)
+        {
+            Course course = DB.Courses.Find(courseId);
+
+            if (user != null && course != null)
+            {
+                course.Users.Add(user);
+            }
+        }
+
+        public void RemoveUserFromCourse(User user, int courseId)
+        {
+            Course course = DB.Courses.Find(courseId);
+
+            if (user != null && course != null)
+            {
+                course.Users.Remove(user);
+            }
+        }
         #endregion
 
         public (string userName, string userPassword) GetUserLoginPassFromBasicAuth(HttpRequest request)
@@ -137,6 +169,50 @@ namespace InfoTestMe.Admin.Web.Services
 
             userDtos = DB.Users.ToList().GetRange(startPosition, countModels).Select(u => u.ToShortDTO()).ToList();
             return userDtos;
+        }
+
+        public bool EnterToCourse(int userId, int courseId)
+        {
+            try
+            {
+                AddUserToCourse(userId, courseId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool EnterToCourse(User user, int courseId)
+        {
+            try
+            {
+                AddUserToCourse(user, courseId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public User GetUserByLogin(string login)
+        {
+            return DB.Users.FirstOrDefault(u => u.Email == login);
+        }
+
+        public bool OutCourse(User user, int courseId)
+        {
+            try
+            {
+                RemoveUserFromCourse(user, courseId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

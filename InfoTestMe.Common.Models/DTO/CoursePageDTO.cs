@@ -6,6 +6,7 @@ namespace InfoTestMe.Common.Models
     public class CoursePageDTO
     {
         public int Id { get; set; }
+        public int ThemeId { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
         public string AudioFileName { get; set; }

@@ -17,12 +17,12 @@ namespace InfoTestMe.Admin.Web.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly UserService _userService;
         private readonly AuthorService _authorService;
 
-        public AccountController(InfoTestMeDataContext db)
+        public AccountsController(InfoTestMeDataContext db)
         {
             _userService = new UserService(db);
             _authorService = new AuthorService(db);
@@ -154,6 +154,6 @@ namespace InfoTestMe.Admin.Web.Controllers
                 return actionResult ? Ok() : StatusCode(500);
             }
             return BadRequest();
-        }
+        }        
     }
 }
