@@ -9,12 +9,13 @@ export default function Register() {
             lastname: "",
             email: "",
             description: "",
+            keywords: "",
             image: [],
 
             password: "",
             password2: "",
         }
-    })
+    });
 
     const changeInputRegister = event => {
         event.persist()
@@ -24,7 +25,7 @@ export default function Register() {
                 [event.target.name]: event.target.value,
             }
         })
-    }
+    };
 
     const submitCheckin = event => {
         event.preventDefault();
@@ -44,18 +45,19 @@ export default function Register() {
                         lastname: register.lastname,
                         email: register.email,
                         description: register.description,
+                        keywords: register.keywords.split(' '),
                         //image: register.image,
                         password: register.password,
                     })
             };
 
-            fetch(`account/author`, requestOptions).then(response => response.json());
+            fetch(`api/accounts/author`, requestOptions).then(response => response.json());
         }
-    }
+    };
 
     return (
         <div className="form">
-            <h2>Register user:</h2>
+            <h2>Регистрация автора:</h2>
             <form onSubmit={submitCheckin}>
                 <p>Имя:
                     <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
@@ -67,7 +69,10 @@ export default function Register() {
                     <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
                 </p>
                 <p>Описание:
-                    <input type="text" id="description" name="description" value={register.description} onChange={changeInputRegister} />
+                    <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
+                </p>
+                <p>Ключевые слова (через пробел):
+                    <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
                 </p>
                 <p>Пароль:
                     <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}

@@ -16,20 +16,32 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                         <NavbarBrand tag={Link} to="/">InfoTestMe.Admin.Web</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
-                            <ul className="navbar-nav flex-grow">
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                                </NavItem>
-                                <NavItem>
-                                    <NavLink tag={Link} className="text-dark" to="/register">Sign in/register</NavLink>
-                                </NavItem>
-                            </ul>
+                        {
+                                sessionStorage.getItem('token') == null ?
+                                    <ul className="navbar-nav flex-grow">
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/singin">SingIn</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/register">Register</NavLink>
+                                        </NavItem>
+                                    </ul>
+                                    :
+                                    <ul className="navbar-nav flex-grow">
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/mypage">MyPage</NavLink>
+                                        </NavItem>
+                                        <NavItem>
+                                            <NavLink tag={Link} className="text-dark" to="/singin">SingOut</NavLink>
+                                        </NavItem>
+                                    </ul>
+                         }
                         </Collapse>
                     </Container>
                 </Navbar>
