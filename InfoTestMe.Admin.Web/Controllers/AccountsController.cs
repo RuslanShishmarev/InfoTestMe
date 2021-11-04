@@ -1,5 +1,6 @@
 ﻿using InfoTestMe.Admin.Web.Models;
 using InfoTestMe.Admin.Web.Models.Data;
+using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Admin.Web.Services;
 using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -34,9 +35,13 @@ namespace InfoTestMe.Admin.Web.Controllers
         public IActionResult GetToken()
         {
             var userData = _userService.GetUserLoginPassFromBasicAuth(Request);
+            
             var login = userData.userName;
             var pass = userData.userPassword;
             var identity = _userService.GetIdentity(login, pass);
+
+            if (identity == null)
+                return NotFound();
 
             var now = DateTime.UtcNow;
             var jwt = new JwtSecurityToken(
@@ -162,6 +167,30 @@ namespace InfoTestMe.Admin.Web.Controllers
                 return actionResult ? Ok() : StatusCode(500);
             }
             return BadRequest();
-        }        
+        }
+
+        /// <summary>
+        /// Получение информации текущего пользователя
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public object GetCurrent(string type)
+        {
+            if(type == "user")
+            {
+                User currentUser = _userService.GetUserByLogin(HttpContext.User.Identity.Name);
+                if (currentUser != null)
+                    return currentUser.ToDTO();
+            }
+
+            if (type == "author")
+            {
+                Author currentAuthor = _authorService.GetAuthorByLogin(HttpContext.User.Identity.Name);
+                if (currentAuthor != null)
+                    return currentAuthor.ToDTO();
+            }
+
+            return null;
+        }
     }
 }
