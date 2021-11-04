@@ -32,6 +32,8 @@ namespace InfoTestMe.Admin.Web.Services
                 Image = dto.Image
             };
 
+            DB.Tests.Add(test);
+            DB.SaveChanges();
 
             if(dto.Questions?.Count > 0)
             {
@@ -40,6 +42,7 @@ namespace InfoTestMe.Admin.Web.Services
                 {
                     TestQuestion testQuestion = new TestQuestion()
                     {
+                        TestId = test.Id,
                         Text = questionDTO.Text,
                         Answers = JsonConvert.SerializeObject(questionDTO.Answers)
                     };
@@ -50,7 +53,6 @@ namespace InfoTestMe.Admin.Web.Services
                 test.Questions.AddRange(questions);
             }
 
-            DB.Tests.Add(test);
         }
 
         private void UpdateTest(TestDTO dto)

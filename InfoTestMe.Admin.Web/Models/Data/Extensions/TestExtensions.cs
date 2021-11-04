@@ -14,6 +14,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Image = test.Image,
                 Questions = test.Questions?.Select(c => c.ToDTO()).ToList(),
                 AllStudents = test.Users?.Select(c => c.ToShortDTO()).ToList(),
+                IsPublic = test.IsPublic
             };
         }
     }
