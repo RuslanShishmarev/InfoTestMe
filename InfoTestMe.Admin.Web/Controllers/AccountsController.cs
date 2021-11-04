@@ -2,21 +2,18 @@
 using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Services;
 using InfoTestMe.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using TaskManagerCourse.Api.Models;
 
 namespace InfoTestMe.Admin.Web.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AccountsController : ControllerBase
     {
         private readonly UserService _userService;
@@ -32,6 +29,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Получение токена
         /// </summary>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("token")]
         public IActionResult GetToken()
         {
@@ -65,6 +63,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// </summary>
         /// <param name="userDTO"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("user")]
         public IActionResult CheckInForUser([FromBody] UserDTO userDTO)
         {
@@ -84,10 +83,15 @@ namespace InfoTestMe.Admin.Web.Controllers
         [HttpPatch("user")]
         public IActionResult UpdateUser([FromBody] UserDTO userDTO)
         {
-            if (userDTO != null)
+            User currentUser = _userService.GetUserByLogin(HttpContext.User.Identity.Name);
+            if(_userService.IsValid(userDTO))
             {
-                bool actionResult = _userService.Update(userDTO);
-                return actionResult ? Ok() : StatusCode(500);
+                if (currentUser?.Id == userDTO.Id)
+                {
+                    bool actionResult = _userService.Update(userDTO);
+                    return actionResult ? Ok() : StatusCode(500);
+                }
+                return Unauthorized();
             }
             return BadRequest();
         }
@@ -96,11 +100,12 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Удаление пользователя
         /// </summary>
         /// <param name="id"></param>
-        /// <returns></returns>
+        /// <returns></returns>        
         [HttpDelete("user/{id}")]
         public IActionResult DeleteUser(int id)
         {
-            if (id != 0)
+            User currentUser = _userService.GetUserByLogin(HttpContext.User.Identity.Name);
+            if (id != 0 && currentUser?.Id == id)
             {
                 bool actionResult = _userService.Delete(id);
                 return actionResult ? Ok() : StatusCode(500);
@@ -113,6 +118,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// </summary>
         /// <param name="authorDTO"></param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("author")]
         public IActionResult CheckInAuthor([FromBody] AuthorDTO authorDTO)
         {
@@ -121,7 +127,7 @@ namespace InfoTestMe.Admin.Web.Controllers
                 bool actionResult = _authorService.Create(authorDTO);
                 return actionResult ? Ok() : StatusCode(500);
             }
-            return Ok();
+            return BadRequest();
         }
 
         /// <summary>
@@ -132,12 +138,13 @@ namespace InfoTestMe.Admin.Web.Controllers
         [HttpPatch("author")]
         public IActionResult UpdateAuthor([FromBody] AuthorDTO authorDTO)
         {
-            if (_userService.IsValid(authorDTO))
+            Author currentAuthor = _authorService.GetAuthorByLogin(HttpContext.User.Identity.Name);
+            if (_userService.IsValid(authorDTO) && currentAuthor != null && currentAuthor.Id == authorDTO.Id)
             {
                 bool actionResult = _authorService.Update(authorDTO);
                 return actionResult ? Ok() : StatusCode(500);
             }
-            return Ok();
+            return BadRequest();
         }
 
         /// <summary>
@@ -148,7 +155,8 @@ namespace InfoTestMe.Admin.Web.Controllers
         [HttpDelete("author/{id}")]
         public IActionResult DeleteAuthor(int id)
         {
-            if (id != 0)
+            Author currentAuthor = _authorService.GetAuthorByLogin(HttpContext.User.Identity.Name);
+            if (id != 0 && currentAuthor != null && currentAuthor.Id == id)
             {
                 bool actionResult = _authorService.Delete(id);
                 return actionResult ? Ok() : StatusCode(500);

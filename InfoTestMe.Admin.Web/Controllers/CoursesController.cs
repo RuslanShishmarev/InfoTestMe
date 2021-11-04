@@ -2,6 +2,7 @@
 using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Services;
 using InfoTestMe.Common.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace InfoTestMe.Admin.Web.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase
@@ -31,7 +33,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Получение курсов преподавателя
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{author/{authorId}}")]
+        [HttpGet("author/{authorId}")]
         public ActionResult<IEnumerable<CourseDTO>> GetCoursesByAuthor(int authorId)
         {
             if(authorId != 0)
@@ -47,7 +49,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Получение курсов ученика
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{user/{userId}}")]
+        [HttpGet("user/{userId}")]
         public ActionResult<IEnumerable<CourseDTO>> GetCoursesForUser(int userId)
         {
             if (userId != 0)
@@ -197,7 +199,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Записатся на курс пользователю
         /// </summary>
         /// <param name="value"></param>
-        [HttpPut("{id}/user/add")]
+        [HttpPut("users/add/{id}")]
         public IActionResult EnterCourse(int id)
         {
             if (id != 0)
@@ -216,7 +218,7 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// Записатся на курс пользователю
         /// </summary>
         /// <param name="value"></param>
-        [HttpPut("{id}/user/remove")]
+        [HttpPut("users/remove/{id}")]
         public IActionResult RemoveCourseFromUser(int id)
         {
             if (id != 0)

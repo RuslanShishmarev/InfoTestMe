@@ -82,7 +82,7 @@ namespace InfoTestMe.Admin.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{actionAdd?}/{id?}");
             });
 
             app.UseSpa(spa =>

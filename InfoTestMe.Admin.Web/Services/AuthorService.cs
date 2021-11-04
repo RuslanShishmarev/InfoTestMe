@@ -94,5 +94,10 @@ namespace InfoTestMe.Admin.Web.Services
             authorDtos = DB.Authors.ToList().GetRange(startPosition,countModels).Select(a => a.ToShortDTO()).ToList();
             return authorDtos;
         }
+
+        public Author GetAuthorByLogin(string login)
+        {
+            return DB.Authors.FirstOrDefault(a => a.Email == login);
+        }
     }
 }
