@@ -22,6 +22,12 @@ namespace InfoTestMe.Admin.Web.Services
             return user;
         }
 
+        private Author GetAuthor(string login, string password)
+        {
+            var author = DB.Authors.FirstOrDefault(u => u.Email == login && u.Password == password);
+            return author;
+        }
+
         private User GetUser(int id)
         {
             var user = DB.Users.Find(id);
@@ -111,13 +117,26 @@ namespace InfoTestMe.Admin.Web.Services
             return (userName, userPass);
         }
 
-        public ClaimsIdentity GetIdentity(string username, string password)
+        public ClaimsIdentity GetIdentity(string username, string password, UserType type)
         {
-            User currentUser = GetUser(username, password);
+            UserCommon currentUser = null;
+
+            if (type == UserType.User)
+                currentUser = GetUser(username, password);
+
+            if (type == UserType.Author)
+                currentUser = GetAuthor(username, password);
+
             if (currentUser != null)
             {
                 currentUser.LastLoginDate = DateTime.Now;
-                DB.Users.Update(currentUser);
+
+                if (type == UserType.User)
+                    DB.Users.Update(currentUser as User);
+
+                if (type == UserType.Author)
+                    DB.Authors.Update(currentUser as Author);
+
                 DB.SaveChanges();
 
                 var claims = new List<Claim>

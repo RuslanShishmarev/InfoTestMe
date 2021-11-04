@@ -2,6 +2,7 @@
 using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Common.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,8 @@ namespace InfoTestMe.Admin.Web.Services
                 Password = dto.Password,
                 Image = dto.Image,
                 RegistrationDate = DateTime.Now,
-                Description = dto.Description
+                Description = dto.Description,
+                KeyWords = JsonConvert.SerializeObject(dto.KeyWords)
             };
             DB.Authors.Add(newAuthor);
         }
@@ -45,6 +47,7 @@ namespace InfoTestMe.Admin.Web.Services
             author.Password = dto.Password;
             author.Image = dto.Image;
             author.Description = dto.Description;
+            author.KeyWords = JsonConvert.SerializeObject(dto.KeyWords);
 
             DB.Authors.Update(author);
         }

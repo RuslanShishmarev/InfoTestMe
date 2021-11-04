@@ -1,4 +1,5 @@
 ﻿using InfoTestMe.Common.Models;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 
@@ -15,6 +16,8 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 LastName = author.LastName,
                 Email = author.Email,
                 Password = author.Password,
+                Description = author.Description,
+                KeyWords = JsonConvert.DeserializeObject<string[]>(author.KeyWords),
                 RegistrationDate = (DateTime)(author?.RegistrationDate),
                 Image = author.Image,
                 Courses = author.Courses?.Select(c => c.Id).ToList(),

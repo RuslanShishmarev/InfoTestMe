@@ -1,4 +1,5 @@
 ﻿using InfoTestMe.Admin.Web.Models;
+using InfoTestMe.Admin.Web.Models.Abstractions;
 using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Admin.Web.Services;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using TaskManagerCourse.Api.Models;
 
 namespace InfoTestMe.Admin.Web.Controllers
@@ -32,13 +34,21 @@ namespace InfoTestMe.Admin.Web.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("token")]
-        public IActionResult GetToken()
+        public IActionResult GetToken(string type)
         {
             var userData = _userService.GetUserLoginPassFromBasicAuth(Request);
             
             var login = userData.userName;
             var pass = userData.userPassword;
-            var identity = _userService.GetIdentity(login, pass);
+
+            ClaimsIdentity identity = null;
+
+            if (type == UserType.User.ToString().ToLower())
+                identity = _userService.GetIdentity(login, pass, UserType.User);
+
+            if (type == UserType.Author.ToString().ToLower())
+                identity = _userService.GetIdentity(login, pass, UserType.Author);
+
 
             if (identity == null)
                 return NotFound();

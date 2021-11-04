@@ -7,6 +7,7 @@ namespace InfoTestMe.Admin.Web.Models.Data
     {
         public int Id { get; set; }
         public string Description { get; set; }
+        public string KeyWords { get; set; }
         public List<Course> Courses { get; set; } = new List<Course>();
         public List<Test> Tests { get; set; } = new List<Test>();
     }
