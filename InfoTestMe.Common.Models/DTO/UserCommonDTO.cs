@@ -14,7 +14,7 @@ namespace InfoTestMe.Common.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime RegistrationDate { get; set; }
-        public byte[] Image { get; set; }
+        public object Image { get; set; }
         public List<int> Courses { get; set; }
         public List<int> Tests { get; set; }
 

@@ -38,15 +38,13 @@ export default function SingIn() {
             .then(
                 function (response) {
                     if (response.status !== 200) {
-                        console.log('Looks like there was a problem. Status Code: ' +
+                        alert('Looks like there was a problem. Status Code: ' +
                             response.status);
                         return;
                     }
 
                     // Examine the text in the response  
                     response.json().then(function (data) {
-                        console.log(data);
-
                         //get token and add to local data
                         token = data.token;
                         sessionStorage.setItem("token", token.toString());
@@ -57,7 +55,7 @@ export default function SingIn() {
                 }
             )
             .catch(function (err) {
-                alert('Ошибка авторизации');
+                alert('Auth error');
             });              
     };
 

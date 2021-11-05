@@ -13,6 +13,7 @@ namespace InfoTestMe.Admin.Web.Services
 {
     public class AuthorService : CommonService<AuthorDTO>, IAuthorService
     {
+        private FileService _fileService = new FileService();
         public AuthorService(InfoTestMeDataContext db) : base(db) { }
 
         #region PRIVATE METHODS
@@ -29,7 +30,7 @@ namespace InfoTestMe.Admin.Web.Services
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Password = dto.Password,
-                Image = dto.Image,
+                Image = _fileService.GetByteArrayFromJson(dto.Image.ToString()),
                 RegistrationDate = DateTime.Now,
                 Description = dto.Description,
                 KeyWords = JsonConvert.SerializeObject(dto.KeyWords)
@@ -45,7 +46,7 @@ namespace InfoTestMe.Admin.Web.Services
             author.LastName = dto.LastName;
             author.Email = dto.Email;
             author.Password = dto.Password;
-            author.Image = dto.Image;
+            author.Image = _fileService.GetByteArrayFromJson(dto.Image.ToString());
             author.Description = dto.Description;
             author.KeyWords = JsonConvert.SerializeObject(dto.KeyWords);
 
@@ -101,6 +102,13 @@ namespace InfoTestMe.Admin.Web.Services
         public Author GetAuthorByLogin(string login)
         {
             return DB.Authors.FirstOrDefault(a => a.Email == login);
+        }
+
+        public bool IsExistAuthor(string email)
+        {
+            Author existAuthor = GetAuthorByLogin(email);
+
+            return existAuthor == null ? false : true;
         }
     }
 }

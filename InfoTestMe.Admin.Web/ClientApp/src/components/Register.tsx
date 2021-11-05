@@ -10,7 +10,7 @@ export default function Register() {
             email: "",
             description: "",
             keywords: "",
-            image: [],
+            image: null,
 
             password: "",
             password2: "",
@@ -26,6 +26,21 @@ export default function Register() {
             }
         })
     };
+
+    const getFileBytes = (files) => {
+        var reader = new FileReader();
+        reader.onload = function(){
+            let arrayBuffer = this.result as ArrayBuffer;
+            let bytes = new Uint8Array(arrayBuffer);
+            setRegister(prev => { 
+                return {
+                    ...prev,
+                    image: bytes
+                }
+            });
+          }
+        //let arrayBytes = reader.readAsArrayBuffer(files[0]);
+      }
 
     const submitCheckin = event => {
         event.preventDefault();
@@ -46,12 +61,22 @@ export default function Register() {
                         email: register.email,
                         description: register.description,
                         keywords: register.keywords.split(' '),
-                        //image: register.image,
+                        image: register.image == null ? null : register.image.toString(),
                         password: register.password,
                     })
             };
 
-            fetch(`api/accounts/author`, requestOptions).then(response => response.json());
+            let statusResponse = 200;
+            fetch(`api/accounts/author`, requestOptions).then(response => {
+                if (response.status == 409) {
+                    alert('Author with ' + register.email + ' is already exist');    
+                    return;                   
+                }   
+                window.location.replace(`/singin`);             
+            })
+            .catch(function (err) {
+                alert('Register error');
+            });
         }
     };
 
@@ -67,6 +92,9 @@ export default function Register() {
                 </p>
                 <p>Почта:
                     <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
+                </p>
+                <p>Фото:
+                    <input type="file" id="image" name="image" onChange={(e) => getFileBytes(e.target.files)} />
                 </p>
                 <p>Описание:
                     <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />

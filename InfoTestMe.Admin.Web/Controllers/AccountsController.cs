@@ -84,6 +84,10 @@ namespace InfoTestMe.Admin.Web.Controllers
         {
             if(userDTO != null || userDTO.Email != null)
             {
+                bool isExist = _userService.IsExistUser(userDTO.Email);
+                if (isExist)
+                    return StatusCode(409);
+
                 bool actionResult =  _userService.Create(userDTO);
                 return actionResult ? Ok() : StatusCode(500);
             }
@@ -136,9 +140,13 @@ namespace InfoTestMe.Admin.Web.Controllers
         [AllowAnonymous]
         [HttpPost("author")]
         public IActionResult CheckInAuthor([FromBody] AuthorDTO authorDTO)
-        {
-            if(_userService.IsValid(authorDTO))
+        {            
+            if (_userService.IsValid(authorDTO))
             {
+                bool isExist = _authorService.IsExistAuthor(authorDTO.Email);
+                if (isExist)
+                    return StatusCode(409);
+
                 bool actionResult = _authorService.Create(authorDTO);
                 return actionResult ? Ok() : StatusCode(500);
             }

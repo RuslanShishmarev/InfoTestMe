@@ -3,6 +3,7 @@ using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace InfoTestMe.Admin.Web.Services
 {
     public class UserService : CommonService<UserDTO>, IUserService
     {
+        private FileService _fileService = new FileService();
         public UserService(InfoTestMeDataContext db) : base(db) { }
 
         #region PRIVATE METHODS
@@ -42,7 +44,7 @@ namespace InfoTestMe.Admin.Web.Services
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Password = dto.Password,
-                Image = dto.Image,
+                Image = _fileService.GetByteArrayFromJson(dto.Image.ToString()),
                 RegistrationDate = DateTime.Now
             };
             DB.Users.Add(newUser);
@@ -56,7 +58,7 @@ namespace InfoTestMe.Admin.Web.Services
             user.LastName = dto.LastName;
             user.Email = dto.Email;
             user.Password = dto.Password;
-            user.Image = dto.Image;
+            user.Image = _fileService.GetByteArrayFromJson(dto.Image.ToString());
 
             DB.Users.Update(user);
         }
@@ -232,6 +234,13 @@ namespace InfoTestMe.Admin.Web.Services
             {
                 return false;
             }
+        }
+
+        public bool IsExistUser(string email)
+        {
+            User existUser = GetUserByLogin(email);
+
+            return existUser == null ? false : true;
         }
     }
 }
