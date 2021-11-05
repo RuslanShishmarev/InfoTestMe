@@ -30,7 +30,7 @@ namespace InfoTestMe.Admin.Web.Services
                 LastName = dto.LastName,
                 Email = dto.Email,
                 Password = dto.Password,
-                Image = _fileService.GetByteArrayFromJson(dto.Image.ToString()),
+                Image = _fileService.GetByteArrayFromJson(dto.Image?.ToString()),
                 RegistrationDate = DateTime.Now,
                 Description = dto.Description,
                 KeyWords = JsonConvert.SerializeObject(dto.KeyWords)
@@ -46,7 +46,7 @@ namespace InfoTestMe.Admin.Web.Services
             author.LastName = dto.LastName;
             author.Email = dto.Email;
             author.Password = dto.Password;
-            author.Image = _fileService.GetByteArrayFromJson(dto.Image.ToString());
+            author.Image = _fileService.GetByteArrayFromJson(dto.Image?.ToString());
             author.Description = dto.Description;
             author.KeyWords = JsonConvert.SerializeObject(dto.KeyWords);
 

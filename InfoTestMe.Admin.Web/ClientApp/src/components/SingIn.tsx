@@ -61,15 +61,15 @@ export default function SingIn() {
 
     return (
         <div className="form">
-            <h2>Регистрация автора:</h2>
+            <h2>Авторизация</h2>
             <form onSubmit={submitSingIn}>
-            <p>Почта:
+            <p>Email:
                     <input type="text" id="email" name="email" value={singIn.email} onChange={changeInputSingIn} />
             </p>
-            <p>Пароль:
+            <p>Password:
                     <input type="password" id="password" name="password" value={singIn.password} onChange={changeInputSingIn} />
                 </p>
-                <input type="submit" />
+                <input className='common-btn' type="submit" />
             </form>
         </div>
         );

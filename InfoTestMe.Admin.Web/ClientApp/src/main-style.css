@@ -1,0 +1,43 @@
+
+/*components*/
+.common-btn {
+    background: white;
+    border: 1px solid black;
+    padding: 10px 50px;
+    margin: 0;
+    color: black;
+    cursor: pointer;
+}
+
+.common-btn:hover {
+    background: black;
+    color: white;
+}
+
+.load-file-btn label {
+    background: white;
+    border: 1px solid black;
+    padding: 10px 50px;
+    margin: 0;
+    color: black;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+}
+
+.load-file-btn label:hover {
+    background: black;
+    color: white;
+}
+
+li {
+    list-style-type: none;
+}
+
+h2 {
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+    margin: 10px;
+}

@@ -38,7 +38,7 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                             <NavLink tag={Link} className="text-dark" to="/mypage">MyPage</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} className="text-dark" to="/singin">SingOut</NavLink>
+                                            <NavLink tag={Link} className="text-dark" onClick={() => sessionStorage.clear()} to="/singin">SingOut</NavLink>
                                         </NavItem>
                                     </ul>
                          }

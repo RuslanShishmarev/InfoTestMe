@@ -6,7 +6,9 @@ import Register from './components/Register';
 import SingIn from './components/SingIn';
 import AuthorPage from './components/AuthorPage';
 
+
 import './custom.css'
+import './main-style.css';
 
 export default () => (
     <Layout>

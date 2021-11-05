@@ -39,7 +39,12 @@ export default function Register() {
                 }
             });
           }
-        //let arrayBytes = reader.readAsArrayBuffer(files[0]);
+          reader.readAsArrayBuffer(files[0]);
+
+          let labelFileName = document.querySelector('#loadImageName') as HTMLUnknownElement;
+          let fileName = files[0].name;
+
+          labelFileName.innerText = fileName == null ? "Nothing" : fileName;
       }
 
     const submitCheckin = event => {
@@ -84,30 +89,35 @@ export default function Register() {
         <div className="form">
             <h2>Регистрация автора:</h2>
             <form onSubmit={submitCheckin}>
-                <p>Имя:
-                    <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
-                </p>
-                <p>Фамилия:
-                    <input type="text" id="lastname" name="lastname" value={register.lastname} onChange={changeInputRegister} />
-                </p>
-                <p>Почта:
-                    <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
-                </p>
-                <p>Фото:
-                    <input type="file" id="image" name="image" onChange={(e) => getFileBytes(e.target.files)} />
-                </p>
-                <p>Описание:
-                    <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
-                </p>
-                <p>Ключевые слова (через пробел):
-                    <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
-                </p>
-                <p>Пароль:
-                    <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}
-                /></p>
-                <p>Повторите пароль:
-                    <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
-                </p>
+                <p>Имя:</p>
+                <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
+                
+                <p>Фамилия:</p>
+                <input type="text" id="lastname" name="lastname" value={register.lastname} onChange={changeInputRegister} />
+                
+                <p>Почта:</p>
+                <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
+                
+                <p>Фото:</p>
+                <div className='load-file-btn'>
+                    <label>
+                        <input type="file" accept="image/*"  id="loadImage" name="image" onChange={(e) => getFileBytes(e.target.files)} />
+                            <span id="loadImageName">Выберите файл</span>
+                    </label>
+                </div>
+
+                <p>Описание:</p>
+                <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
+                
+                <p>Ключевые слова (через пробел):</p>
+                <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
+                
+                <p>Пароль:</p>
+                <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}/>
+                
+                <p>Повторите пароль:</p>
+                <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
+                
                 <input type="submit" />
             </form>
         </div>
