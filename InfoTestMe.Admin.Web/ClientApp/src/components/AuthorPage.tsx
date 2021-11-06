@@ -9,11 +9,16 @@ class AuthorPage extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            profile: {},
+            profile: 
+            {
+
+            },
             image: "",
+            keywords: "",
             isEditerOpen: false,
          }
-        this.loadData = this.loadData.bind(this)
+        this.loadData = this.loadData.bind(this);
+        this.updateAuthor = this.updateAuthor.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +32,8 @@ class AuthorPage extends React.Component {
         if(authorInfo !== null && authorInfo !== undefined) {
             this.setState({
                 profile: authorInfo,
-                image: "data:image/jpg;base64," + authorInfo.image
+                image: "data:image/jpg;base64," + authorInfo.image,
+                keywords: (authorInfo.keyWords as string[]).join(' ')
             });
         } else {
             window.location.replace(`/singin`);  
@@ -41,7 +47,12 @@ class AuthorPage extends React.Component {
     openEditModelWnd =() => this.setState({
             isEditerOpen: true,
         });
-    
+
+    updateAuthor = () => 
+    {
+        setTimeout(() => {  this.loadData(); console.log("Author Updated"); }, 10000);       
+        //window.location.replace(`/mypage`);  
+    }
 
     render() {
         return (
@@ -70,7 +81,7 @@ class AuthorPage extends React.Component {
                             Описание: {this.state.profile.description}
                         </li>
                         <li>
-                            Ключевые слова: {this.state.profile.keyWords}
+                            <p>Ключевые слова: {this.state.keywords}</p>
                         </li>
                     </ul>
                 </div>
@@ -85,6 +96,7 @@ class AuthorPage extends React.Component {
                     keywords={this.state.profile.keyWords}
                     image={this.state.profile.image}
                     onClose={this.onClose}
+                    reloadAuthor={this.updateAuthor}
                 />
             </div>
         );

@@ -1,0 +1,12 @@
+.singin-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.singin-form form {
+    margin: 10px 0;
+}
+.singin-form form input {
+    text-align: center;
+}

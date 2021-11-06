@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
 import requestUrl from '../RequestUrls.json';
+import './css/EditAuthor.css';
 import {createAuthor, AuthorBody}  from './js/services/AuthorRequestService';
 
 export default function Register() {
@@ -76,40 +77,42 @@ export default function Register() {
     };
 
     return (
-        <div className="form">
-            <h2>Регистрация автора:</h2>
-            <form onSubmit={submitCheckin}>
-                <p>Имя:</p>
-                <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
-                
-                <p>Фамилия:</p>
-                <input type="text" id="lastname" name="lastname" value={register.lastname} onChange={changeInputRegister} />
-                
-                <p>Почта:</p>
-                <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
-                
-                <p>Фото:</p>
-                <div className='load-file-btn'>
-                    <label>
-                        <input type="file" accept="image/*"  id="loadImage" name="image" onChange={(e) => getFileBytes(e.target.files)} />
-                            <span id="loadImageName">Выберите файл</span>
-                    </label>
-                </div>
+        <div className="create-author">        
+            <div className="create-author-form">
+                <h2>Регистрация автора:</h2>
+                <form onSubmit={submitCheckin}>
+                    <p>Имя:</p>
+                    <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
+                    
+                    <p>Фамилия:</p>
+                    <input type="text" id="lastname" name="lastname" value={register.lastname} onChange={changeInputRegister} />
+                    
+                    <p>Почта:</p>
+                    <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
+                    
+                    <p>Фото:</p>
+                    <div className='load-file-btn'>
+                        <label>
+                            <input type="file" accept="image/*"  id="loadImage" name="image" onChange={(e) => getFileBytes(e.target.files)} />
+                                <span id="loadImageName">Выберите файл</span>
+                        </label>
+                    </div>
 
-                <p>Описание:</p>
-                <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
-                
-                <p>Ключевые слова (через пробел):</p>
-                <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
-                
-                <p>Пароль:</p>
-                <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}/>
-                
-                <p>Повторите пароль:</p>
-                <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
-                
-                <input type="submit" />
-            </form>
+                    <p>Описание:</p>
+                    <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
+                    
+                    <p>Ключевые слова (через пробел):</p>
+                    <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
+                    
+                    <p>Пароль:</p>
+                    <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}/>
+                    
+                    <p>Повторите пароль:</p>
+                    <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
+                    
+                    <input className='common-btn' type="submit" />
+                </form>
+            </div>
         </div>
         );
 

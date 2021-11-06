@@ -46,7 +46,8 @@ namespace InfoTestMe.Admin.Web.Services
             author.LastName = dto.LastName;
             author.Email = dto.Email;
             author.Password = dto.Password;
-            author.Image = _fileService.GetByteArrayFromJson(dto.Image?.ToString());
+            if (author.Image != null && dto.Image != null)
+                author.Image = _fileService.GetByteArrayFromJson(dto.Image.ToString());
             author.Description = dto.Description;
             author.KeyWords = JsonConvert.SerializeObject(dto.KeyWords);
 

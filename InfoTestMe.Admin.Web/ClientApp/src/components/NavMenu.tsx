@@ -3,9 +3,10 @@ import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLi
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
 
-export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }> {
+export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean, isAuth: boolean }> {
     public state = {
-        isOpen: false
+        isOpen: false,
+        isAuth: false
     };
 
     public render() {
@@ -13,11 +14,11 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
             <header>
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light>
                     <Container>
-                        <NavbarBrand tag={Link} to="/">InfoTestMe.Admin.Web</NavbarBrand>
+                        <NavbarBrand tag={Link} to="/">InfoTestMe</NavbarBrand>
                         <NavbarToggler onClick={this.toggle} className="mr-2"/>
                         <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
                         {
-                                sessionStorage.getItem('token') == null ?
+                                sessionStorage.getItem('token') == null || this.state.isAuth ?
                                     <ul className="navbar-nav flex-grow">
                                         <NavItem>
                                             <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
@@ -38,7 +39,10 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
                                             <NavLink tag={Link} className="text-dark" to="/mypage">MyPage</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink tag={Link} className="text-dark" onClick={() => sessionStorage.clear()} to="/singin">SingOut</NavLink>
+                                            <NavLink tag={Link} className="text-dark" onClick={() => {                                                
+                                                this.singOut();
+                                                }
+                                            } to="/singin">SingOut</NavLink>
                                         </NavItem>
                                     </ul>
                          }
@@ -54,4 +58,13 @@ export default class NavMenu extends React.PureComponent<{}, { isOpen: boolean }
             isOpen: !this.state.isOpen
         });
     }
+
+    private singOut = () => {
+        sessionStorage.clear();        
+        this.setState({
+            isAuth: false
+        });
+        window.location.replace(`/singin`);
+    }
+
 }

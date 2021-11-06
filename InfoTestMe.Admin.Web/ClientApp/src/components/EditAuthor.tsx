@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useCallback  } from 'react';
 import './css/EditAuthor.css';
 import requestUrl from '../RequestUrls.json';
 import {updateAuthor, AuthorBody}  from './js/services/AuthorRequestService';
@@ -15,6 +15,7 @@ interface EditAuthorProps {
     keywords: string
     image: null
     onClose: () => void
+    reloadAuthor: () => void
   }
 
 
@@ -28,6 +29,7 @@ const EditAuthor = ({
     keywords = '',
     image = null,
     onClose,
+    reloadAuthor,
 }: EditAuthorProps) => {
     
     const [editer, setEditer] = useState(() => {
@@ -43,6 +45,7 @@ const EditAuthor = ({
             password: '',
             password2: '',
             onClose: onClose,
+            reloadAuthor: reloadAuthor,
         }
     });
     editer.visible = visible;
@@ -70,7 +73,8 @@ const EditAuthor = ({
             };
 
             updateAuthor(author);
-            window.location.replace(`/mypage`);
+            onClose();            
+            reloadAuthor();
         }
     };
 
@@ -106,8 +110,8 @@ const EditAuthor = ({
     if (!editer.visible) return null;
 
     return (
-        <div className="edit-author">
-            <div className="edit-form" >
+        <div className="edit-author-modal-back">
+            <div className="edit-author-form" >
                 <h2>Редактирование автора:</h2>
                 <button className='common-btn' onClick={editer.onClose}>Закрыть</button>
                 <form onSubmit={submitCheckin}>

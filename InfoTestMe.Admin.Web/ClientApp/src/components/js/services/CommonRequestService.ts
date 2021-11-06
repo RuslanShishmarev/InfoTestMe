@@ -45,8 +45,12 @@ export async function doActionWithDataByUrlWithToken(url: string, methodType: st
 
     //let resultData;
     let response = await fetch(`` + url, requestOptions);
-    let json = await response.json();
-    return json;
+    if(response.ok){
+        let json = await response.json();
+        return json;
+    } else {
+        window.location.replace(`/singin`)
+    }
 }
 
 export async function getToken(login: string, password: string) {
@@ -64,14 +68,15 @@ export async function getToken(login: string, password: string) {
     let token = "";
 
     let response = await fetch(`` + requestUrl.author.singin, requestOptions);
+
     let json = await response.json();
 
     token = json.token;
-
+    
     sessionStorage.setItem("token", token.toString());
     sessionStorage.setItem("login", login);
     sessionStorage.setItem("password", password);
     sessionStorage.setItem("singin-time", Date.now().toString());
-
+    
     return token;
 }

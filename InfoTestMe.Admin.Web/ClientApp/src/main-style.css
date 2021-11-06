@@ -41,3 +41,7 @@ h2 {
     text-align: center;
     margin: 10px;
 }
+
+form input[type="file"]{
+    display: none;
+}

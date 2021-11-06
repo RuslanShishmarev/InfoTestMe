@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import requestUrl from '../RequestUrls.json';
 import { getToken } from './js/services/CommonRequestService';
+import './css/singin.css';
 
 export default function SingIn() {
 
@@ -31,15 +32,13 @@ export default function SingIn() {
     };
 
     return (
-        <div className="form">
+        <div className="singin-form">
             <h2>Авторизация</h2>
             <form onSubmit={submitSingIn}>
-            <p>Email:
-                    <input type="text" id="email" name="email" value={singIn.email} onChange={changeInputSingIn} />
-            </p>
-            <p>Password:
-                    <input type="password" id="password" name="password" value={singIn.password} onChange={changeInputSingIn} />
-                </p>
+                <p>Email:</p>
+                <input type="text" id="email" name="email" value={singIn.email} onChange={changeInputSingIn} />                
+                <p>Password:</p>
+                <input type="password" id="password" name="password" value={singIn.password} onChange={changeInputSingIn} />
                 <input className='common-btn' type="submit" />
             </form>
         </div>
