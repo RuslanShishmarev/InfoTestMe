@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
+import requestUrl from '../RequestUrls.json';
+import { getToken } from './js/services/CommonRequestService';
 
 export default function SingIn() {
 
@@ -20,43 +22,12 @@ export default function SingIn() {
         })
     };
 
-    const submitSingIn = event => {
+    const submitSingIn = async event => {
         event.preventDefault();
-        
-        let singInLP = Buffer.from(singIn.email + ":" + singIn.password).toString('base64');
 
-        const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Basic ' + singInLP.toString()
-            },
-        };
+        let token = await getToken(singIn.email, singIn.password);
+        if(token !== null && token !== undefined) window.location.replace(`/mypage`);
 
-        let token = "";
-        fetch(`api/accounts/token?type=author`, requestOptions)
-            .then(
-                function (response) {
-                    if (response.status !== 200) {
-                        alert('Looks like there was a problem. Status Code: ' +
-                            response.status);
-                        return;
-                    }
-
-                    // Examine the text in the response  
-                    response.json().then(function (data) {
-                        //get token and add to local data
-                        token = data.token;
-                        sessionStorage.setItem("token", token.toString());
-
-                        //redirect to home page
-                        window.location.replace(`/mypage`);
-                    });
-                }
-            )
-            .catch(function (err) {
-                alert('Auth error');
-            });              
     };
 
     return (

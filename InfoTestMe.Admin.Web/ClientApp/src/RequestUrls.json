@@ -1,0 +1,16 @@
+
+{
+    "methods": {
+        "get": "GET",
+        "post": "POST",
+        "patch": "PATCH",
+        "delete": "DELETE"
+    },
+    "author": {
+        "get": "api/accounts?type=author",
+        "create": "api/accounts/author",
+        "update": "api/accounts/author",
+        "singin": "api/accounts/token?type=author",
+        "delete": "api/accounts/author/"
+    }
+}

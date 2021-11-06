@@ -1,5 +1,7 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
+import requestUrl from '../RequestUrls.json';
+import {createAuthor, AuthorBody}  from './js/services/AuthorRequestService';
 
 export default function Register() {
 
@@ -56,32 +58,20 @@ export default function Register() {
         } else if (register.password.length < 4) {
             alert("Пароль должен содержать больше 4 символов");
         } else {
-            const requestOptions = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(
-                    {
-                        firstname: register.firstname,
-                        lastname: register.lastname,
-                        email: register.email,
-                        description: register.description,
-                        keywords: register.keywords.split(' '),
-                        image: register.image == null ? null : register.image.toString(),
-                        password: register.password,
-                    })
-            };
 
-            let statusResponse = 200;
-            fetch(`api/accounts/author`, requestOptions).then(response => {
-                if (response.status == 409) {
-                    alert('Author with ' + register.email + ' is already exist');    
-                    return;                   
-                }   
-                window.location.replace(`/singin`);             
-            })
-            .catch(function (err) {
-                alert('Register error');
-            });
+            const newAuthor: AuthorBody = {
+                id: 0,
+                firstname: register.firstname,
+                lastname: register.lastname,
+                email: register.email,
+                description: register.description,
+                keywords: register.keywords.split(' '),
+                image: register.image == null ? null : register.image.toString(),
+                password: register.password,                
+            }
+
+            createAuthor(newAuthor);
+            window.location.replace(`/singin`);
         }
     };
 

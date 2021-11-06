@@ -1,7 +1,8 @@
 ﻿import * as React from 'react';
 import { connect } from 'react-redux';
 import EditAuthor from './EditAuthor';
-
+import requestUrl from '../RequestUrls.json';
+import {getAuthor, AuthorBody}  from './js/services/AuthorRequestService';
 
 
 class AuthorPage extends React.Component {
@@ -19,36 +20,18 @@ class AuthorPage extends React.Component {
         this.loadData()
     };
 
-    loadData() {
-        const requestOptions = {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
-            },
-        };
+    async loadData() {
 
-        fetch(`api/accounts?type=author`, requestOptions).then(
-            response => {
-                if (response.status !== 200) {
-                    window.location.replace(`/singin`);
-                    alert('Какая-то проблема. Статус : ' +
-                        response.status);                    
-                    return;
-                }
-
-                // Examine the text in the response  
-                response.json().then(data => {
-                    //set properties value
-                    this.setState({
-                        profile: data,
-                        image: "data:image/jpg;base64," + data.image
-                    });
-                });
-            }
-        ).catch(function (err) {
-                alert('Ошибка авторизации');
-            }); 
+        let authorInfo = await getAuthor();
+        
+        if(authorInfo !== null && authorInfo !== undefined) {
+            this.setState({
+                profile: authorInfo,
+                image: "data:image/jpg;base64," + authorInfo.image
+            });
+        } else {
+            window.location.replace(`/singin`);  
+        }
 
     }
 

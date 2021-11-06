@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useState } from 'react';
 import './css/EditAuthor.css';
-
+import requestUrl from '../RequestUrls.json';
+import {updateAuthor, AuthorBody}  from './js/services/AuthorRequestService';
 
 // интерфейс для пропсов
 interface EditAuthorProps {
@@ -56,35 +57,20 @@ const EditAuthor = ({
         } else if (editer.password.length < 4) {
             alert("Пароль должен содержать больше 4 символов");
         } else {
-            const requestOptions = {
-                method: 'PATCH',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + sessionStorage.getItem('token') 
-                },
-                body: JSON.stringify(
-                    {
-                        id: editer.id,
-                        firstname: editer.firstname,
-                        lastname: editer.lastname,
-                        email: editer.email,
-                        description: editer.description,
-                        keywords: editer.keywords.split(' '),
-                        image: editer.image == null ? null : editer.image.toString(),
-                        password: editer.password,
-                    })
+
+            const author: AuthorBody = {
+                id: editer.id,
+                firstname: editer.firstname,
+                lastname: editer.lastname,
+                email: editer.email,
+                description: editer.description,
+                keywords: editer.keywords.split(' '),
+                image: editer.image == null ? null : editer.image.toString(),
+                password: editer.password,
             };
 
-            fetch(`api/accounts/author`, requestOptions).then(response => {
-                if (response.status !== 200) {
-                    alert('Some error. Status code ' + response.status);    
-                    return;                   
-                }   
-                window.location.replace(`/mypage`);   
-            })
-            .catch(function (err) {
-                alert('Register error');
-            });
+            updateAuthor(author);
+            window.location.replace(`/mypage`);
         }
     };
 
@@ -117,7 +103,7 @@ const EditAuthor = ({
           labelFileName.innerText = fileName == null ? "Nothing" : fileName;
       }
 
-    if (!editer.visible) return null
+    if (!editer.visible) return null;
 
     return (
         <div className="edit-author">
