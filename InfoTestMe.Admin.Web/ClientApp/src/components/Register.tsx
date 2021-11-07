@@ -1,8 +1,11 @@
 ﻿import * as React from 'react';
 import { useState } from 'react';
 import requestUrl from '../RequestUrls.json';
-import './css/EditAuthor.css';
-import {createAuthor, AuthorBody}  from './js/services/AuthorRequestService';
+import './css/create-author-page.css';
+import {createAuthor}  from './js/services/AuthorRequestService';
+import words from '../LetterMessages.json';
+import { selectImageBytesFromFile } from './js/services/UIServices';
+import { AuthorBodyModel } from './interfaces/IAuthor';
 
 export default function Register() {
 
@@ -30,37 +33,31 @@ export default function Register() {
         })
     };
 
+    const setRegisterImage = (bytes: any) => {
+        setRegister(prev => { 
+            return {
+                ...prev,
+                image: bytes
+            }
+        });
+    }
+
     const getFileBytes = (files) => {
-        var reader = new FileReader();
-        reader.onload = function(){
-            let arrayBuffer = this.result as ArrayBuffer;
-            let bytes = new Uint8Array(arrayBuffer);
-            setRegister(prev => { 
-                return {
-                    ...prev,
-                    image: bytes
-                }
-            });
-          }
-          reader.readAsArrayBuffer(files[0]);
-
           let labelFileName = document.querySelector('#loadImageName') as HTMLUnknownElement;
-          let fileName = files[0].name;
-
-          labelFileName.innerText = fileName == null ? "Nothing" : fileName;
+          selectImageBytesFromFile(files[0], labelFileName, setRegisterImage);
       }
 
     const submitCheckin = event => {
         event.preventDefault();
         if (register.email == "" || register.email.includes("@") == false) {
-            alert("Неправильная почта");
+            alert(words.messages.author.errors.nullEmail);
         } else if (register.password !== register.password2) {
-            alert("Введите одинаковый пароль");
+            alert(words.messages.author.errors.checkPassword);
         } else if (register.password.length < 4) {
-            alert("Пароль должен содержать больше 4 символов");
+            alert(words.messages.author.errors.shortPassword);
         } else {
 
-            const newAuthor: AuthorBody = {
+            const newAuthor: AuthorBodyModel = {
                 id: 0,
                 firstname: register.firstname,
                 lastname: register.lastname,
@@ -71,46 +68,48 @@ export default function Register() {
                 password: register.password,                
             }
 
-            createAuthor(newAuthor);
-            window.location.replace(`/singin`);
+            const goToSingIn = () => {
+                window.location.replace(`/singin`);
+            }
+            createAuthor(newAuthor, goToSingIn);
         }
     };
 
     return (
-        <div className="create-author">        
+        <div className="create-author-page">        
             <div className="create-author-form">
-                <h2>Регистрация автора:</h2>
+                <h2>{words.actions.createAuthor}:</h2>
                 <form onSubmit={submitCheckin}>
-                    <p>Имя:</p>
+                    <p>{words.tags.author.properties.firstname}:</p>
                     <input type="text" id="firstname" name="firstname" value={register.firstname} onChange={changeInputRegister} />
                     
-                    <p>Фамилия:</p>
+                    <p>{words.tags.author.properties.lastname}:</p>
                     <input type="text" id="lastname" name="lastname" value={register.lastname} onChange={changeInputRegister} />
                     
-                    <p>Почта:</p>
+                    <p>{words.tags.author.properties.email}:</p>
                     <input type="text" id="email" name="email" value={register.email} onChange={changeInputRegister} />
                     
-                    <p>Фото:</p>
+                    <p>{words.words.common.image}:</p>
                     <div className='load-file-btn'>
                         <label>
                             <input type="file" accept="image/*"  id="loadImage" name="image" onChange={(e) => getFileBytes(e.target.files)} />
-                                <span id="loadImageName">Выберите файл</span>
+                                <span id="loadImageName">{words.actions.selectFile}</span>
                         </label>
                     </div>
 
-                    <p>Описание:</p>
+                    <p>{words.tags.author.properties.description}:</p>
                     <textarea id="description" name="description" value={register.description} onChange={changeInputRegister} />
                     
-                    <p>Ключевые слова (через пробел):</p>
+                    <p>{words.tags.author.properties.keywords} {words.tags.author.properties.keywordsAt}:</p>
                     <textarea id="keywords" name="keywords" value={register.keywords} onChange={changeInputRegister} />
                     
-                    <p>Пароль:</p>
+                    <p>{words.tags.author.properties.password}:</p>
                     <input type="password" id="password" name="password" value={register.password} onChange={changeInputRegister}/>
                     
-                    <p>Повторите пароль:</p>
+                    <p>{words.actions.passwordRepeat}:</p>
                     <input type="password" id="password2" name="password2" value={register.password2} onChange={changeInputRegister} />
                     
-                    <input className='common-btn' type="submit" />
+                    <input className='common-btn' type="submit"/>
                 </form>
             </div>
         </div>

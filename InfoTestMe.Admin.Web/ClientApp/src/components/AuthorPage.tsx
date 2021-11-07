@@ -2,20 +2,24 @@
 import { connect } from 'react-redux';
 import EditAuthor from './EditAuthor';
 import requestUrl from '../RequestUrls.json';
-import {getAuthor, AuthorBody}  from './js/services/AuthorRequestService';
+import {getAuthor}  from './js/services/AuthorRequestService';
+import CreateCourse from './course/CreateCourse';
+import words from '../LetterMessages.json';
+import './css/author-page.css';
+import {CourseBodyModel} from './interfaces/ICourse';
 
 
 class AuthorPage extends React.Component {
-    constructor(props) {
+    constructor(props: Readonly<{}>) {
         super(props)
         this.state = {
-            profile: 
-            {
-
-            },
+            profile: { },
             image: "",
             keywords: "",
             isEditerOpen: false,
+            isNewCourseOpen: false,
+            descriptionAsHtml: "",
+            courses: []
          }
         this.loadData = this.loadData.bind(this);
         this.updateAuthor = this.updateAuthor.bind(this);
@@ -30,10 +34,29 @@ class AuthorPage extends React.Component {
         let authorInfo = await getAuthor();
         
         if(authorInfo !== null && authorInfo !== undefined) {
+
+            const coursesAsBtns = (authorInfo.courses as CourseBodyModel[]).map(course => {
+                return (
+                    <button key={course.id} className='round-btn' title={course.description.slice(0, 100)}>{course.name}</button>
+                );
+            });
+
+            let descriptionAsHtml = authorInfo.description;
+            if((descriptionAsHtml as string).includes('<br>') === true)
+                descriptionAsHtml = (authorInfo.description as string).split('<br>').map(strLine => {
+                return (
+                    <p style={{margin:"5px"}}>{strLine}</p>
+                );
+            })
+
+            const keywords = (authorInfo.keyWords as string[]).join(' ');
+
             this.setState({
                 profile: authorInfo,
                 image: "data:image/jpg;base64," + authorInfo.image,
-                keywords: (authorInfo.keyWords as string[]).join(' ')
+                keywords: keywords,
+                descriptionAsHtml: descriptionAsHtml,
+                courses: coursesAsBtns
             });
         } else {
             window.location.replace(`/singin`);  
@@ -44,48 +67,57 @@ class AuthorPage extends React.Component {
     onClose = () => this.setState({
         isEditerOpen: false,
     })
+    onCloseNewCourse = () => this.setState({
+        isNewCourseOpen: false,
+    })
+
     openEditModelWnd =() => this.setState({
             isEditerOpen: true,
         });
 
+    openNewCourse =() => this.setState({
+        isNewCourseOpen: true,
+        });
+
     updateAuthor = () => 
     {
-        setTimeout(() => {  this.loadData(); console.log("Author Updated"); }, 10000);       
-        //window.location.replace(`/mypage`);  
+        this.loadData()
     }
 
     render() {
         return (
             <div className="author-page" style={{width: "100%", height: "100%"}}>
                 <div className="author-data">
-                    <ul>
-                        {
+                    <div>{
                             this.state.image.length > 30 ?
-                            <li>
-                                <img style={{width: '200px'}} 
-                                    id="profileImage" src={this.state.image}/>                        
-                            </li>
+                            <img style={{width: '200px'}} 
+                                    id="profileImage" src={this.state.image}/>
                             :
-                            <li></li>
+                            null
                         }
+                    </div>
+                    <ul>                        
                         <li>
-                            Почта: {this.state.profile.email}
+                            <strong>{words.tags.author.properties.email}:</strong> {this.state.profile.email}
                         </li>
                         <li>
-                            Имя: {this.state.profile.firstName}
+                            <strong>{words.tags.author.properties.firstname}:</strong> {this.state.profile.firstName}
                         </li>
                         <li>
-                            Фамилия: {this.state.profile.lastName}
+                            <strong>{words.tags.author.properties.lastname}:</strong> {this.state.profile.lastName}
                         </li>
                         <li>
-                            Описание: {this.state.profile.description}
+                            <strong>{words.tags.author.properties.description}:</strong>
+                            {this.state.descriptionAsHtml}
                         </li>
                         <li>
-                            <p>Ключевые слова: {this.state.keywords}</p>
+                            <p><strong>{words.tags.author.properties.keywords}:</strong> {this.state.keywords}</p>
                         </li>
+                        <li>
+                            <button className='common-btn' onClick={this.openEditModelWnd}>{words.actions.edit}</button>
+                         </li>
                     </ul>
                 </div>
-                <button className='common-btn' onClick={this.openEditModelWnd}>Edit</button>
                 <EditAuthor
                     visible = {this.state.isEditerOpen}
                     id={this.state.profile.id}
@@ -98,6 +130,27 @@ class AuthorPage extends React.Component {
                     onClose={this.onClose}
                     reloadAuthor={this.updateAuthor}
                 />
+                <CreateCourse 
+                    visible={this.state.isNewCourseOpen} 
+                    name={''} 
+                    description={''} 
+                    image={null} 
+                    onClose={this.onCloseNewCourse}
+                    reloadAuthorPage={this.updateAuthor}/>
+
+                <div className="author-products">
+                    <div className="courses">
+                        <h1>{words.tags.course.listname}</h1>
+                        <div className="course-list">
+                            <button className='round-btn' onClick={this.openNewCourse}>➕</button>
+                            {this.state.courses}
+                        </div>
+                        
+                    </div>
+                    <div className="tests">
+                        <h1>{words.tags.test.listname}</h1>
+                    </div>
+                </div>
             </div>
         );
     };

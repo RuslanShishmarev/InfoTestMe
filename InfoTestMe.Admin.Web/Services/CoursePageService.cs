@@ -13,6 +13,7 @@ namespace InfoTestMe.Admin.Web.Services
 {
     public class CoursePageService : CommonService<CoursePageDTO>, ICoursePageService
     {
+        private FileService _fileService = new FileService();
         public CoursePageService(InfoTestMeDataContext db) : base(db) { }
 
         #region PRIVATE METHODS
@@ -43,7 +44,7 @@ namespace InfoTestMe.Admin.Web.Services
                     CourseBlock courseBlock = new CourseBlock()
                     {
                         PageId = coursePage.Id,
-                        Image = blockDTO.Image,
+                        Image = _fileService.GetByteArrayFromJson(blockDTO.Image?.ToString()),
                         Text = blockDTO.Text
                     };
                     courseBlocks.Add(courseBlock);
@@ -72,7 +73,7 @@ namespace InfoTestMe.Admin.Web.Services
 
                     if(block != null)
                     {
-                        block.Image = blockDTO.Image;
+                        block.Image = _fileService.GetByteArrayFromJson(blockDTO.Image?.ToString());
                         block.Text = blockDTO.Text;
                         DB.CourseBlocks.Update(block);
                     }
@@ -82,7 +83,7 @@ namespace InfoTestMe.Admin.Web.Services
                         CourseBlock courseBlock = new CourseBlock()
                         {
                             PageId = pageDTO.Id,
-                            Image = blockDTO.Image,
+                            Image = _fileService.GetByteArrayFromJson(blockDTO.Image?.ToString()),
                             Text = blockDTO.Text
                         };
                         DB.CourseBlocks.Add(courseBlock);
@@ -121,9 +122,9 @@ namespace InfoTestMe.Admin.Web.Services
             return CreateOrUpdateActionData(UpdatePage, dto);
         }
 
-        public IEnumerable<CoursePageDTO> GetPagesByThemeId(int themeId)
+        public async Task<IEnumerable<CoursePageDTO>> GetPagesByThemeId(int themeId)
         {
-            return DB.CoursePages.Include(p => p.Blocks).Where(p => p.ThemeId == themeId).Select(p => p.ToDTO());
+            return await DB.CoursePages.Include(p => p.Blocks).Where(p => p.ThemeId == themeId).Select(p => p.ToDTO()).ToListAsync();
         }
     }
 }

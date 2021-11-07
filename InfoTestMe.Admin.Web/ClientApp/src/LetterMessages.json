@@ -1,0 +1,75 @@
+
+{
+    "messages": {
+        "author": {
+            "errors": {
+                "nullFirstname": "Name is not full",
+                "nullLastname": "Lastname is not full",
+                "nullEmail": "Email is not full",
+                "nullPassword": "Password is not full",
+                "checkPassword": "Passwords are not equal",
+                "shortPassword": "Password must be longer then 4 letters"
+            }
+        },
+        "course": {
+            "errors": {
+                "nullName": "Name is not full",
+                "nullDescription": "Description is not full"
+            }
+        },
+        "request": {
+            "error": "Error!!!"
+        }
+    },
+    "words": {
+        "common":{
+            "name": "Name",
+            "image": "Image",
+            "description": "Description"
+        }        
+    },
+    "actions": {
+        "selectFile": "Select file",
+        "edit": "Edit",
+        "open": "Open",
+        "close": "Close",
+        "create": "Create",
+        "send": "Send",
+        "ok": "Ok",
+        "editAuthor": "Edit author",
+        "createAuthor": "Registration author",
+        "editCourse": "Edit course",
+        "editTest": "Edit test",
+        "passwordRepeat": "Repeat password",
+        "authorization": "Authorization",
+        "singin": "Sing in"
+    },
+    "tags": {
+        "author": {
+            "page": "My page",
+            "properties": {
+                "firstname": "Firstname",
+                "lastname": "Lastname",
+                "email": "Email",
+                "description": "Description",
+                "keywords": "Key words",
+                "keywordsAt": "(write down with a space)",
+                "password": "Password"
+            }
+        },
+        "course": {
+            "listname": "My courses",
+            "properties": {
+                "name": "Name",
+                "description": "Description"
+            }
+        },
+        "test": {
+            "listname": "My tests",
+            "properties": {
+                "name": "Name",
+                "description": "Description"
+            }
+        }
+    }
+}

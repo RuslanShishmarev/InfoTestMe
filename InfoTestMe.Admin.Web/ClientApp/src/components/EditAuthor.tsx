@@ -1,22 +1,10 @@
 import * as React from 'react';
 import { useState, useCallback  } from 'react';
-import './css/EditAuthor.css';
 import requestUrl from '../RequestUrls.json';
-import {updateAuthor, AuthorBody}  from './js/services/AuthorRequestService';
-
-// интерфейс для пропсов
-interface EditAuthorProps {
-    visible: boolean
-    id: number
-    firstname: string
-    lastname: string
-    email: string
-    description: string
-    keywords: string
-    image: null
-    onClose: () => void
-    reloadAuthor: () => void
-  }
+import {updateAuthor}  from './js/services/AuthorRequestService';
+import {UpdateAuthorModel, AuthorBodyModel} from './interfaces/IAuthor';
+import {selectImageBytesFromFile} from '../components/js/services/UIServices';
+import words from '../LetterMessages.json';
 
 
 const EditAuthor = ({
@@ -30,7 +18,7 @@ const EditAuthor = ({
     image = null,
     onClose,
     reloadAuthor,
-}: EditAuthorProps) => {
+}: UpdateAuthorModel) => {
     
     const [editer, setEditer] = useState(() => {
         return {
@@ -54,14 +42,14 @@ const EditAuthor = ({
     const submitCheckin = event => {
         event.preventDefault();
         if (editer.email == "" || editer.email.includes("@") == false) {
-            alert("Неправильная почта");
+            alert(words.messages.author.errors.nullEmail);
         } else if (editer.password !== editer.password2) {
-            alert("Введите одинаковый пароль");
+            alert(words.messages.author.errors.checkPassword);
         } else if (editer.password.length < 4) {
-            alert("Пароль должен содержать больше 4 символов");
+            alert(words.messages.author.errors.shortPassword);
         } else {
 
-            const author: AuthorBody = {
+            const author: AuthorBodyModel = {
                 id: editer.id,
                 firstname: editer.firstname,
                 lastname: editer.lastname,
@@ -72,9 +60,8 @@ const EditAuthor = ({
                 password: editer.password,
             };
 
-            updateAuthor(author);
-            onClose();            
-            reloadAuthor();
+            updateAuthor(author, reloadAuthor);
+            onClose();
         }
     };
 
@@ -87,61 +74,56 @@ const EditAuthor = ({
             }
         })
     };    
-    
-    const getFileBytes = (files) => {
-        var reader = new FileReader();
-        reader.onload = function(){
-            let arrayBuffer = this.result as ArrayBuffer;
-            let bytes = new Uint8Array(arrayBuffer);
-            setEditer(prev => { 
-                return {
-                    ...prev,
-                    image: bytes
-                }
-            });
-          }
-          reader.readAsArrayBuffer(files[0]);
-          let labelFileName = document.querySelector('#loadImageName') as HTMLUnknownElement;
-          let fileName = files[0].name;
 
-          labelFileName.innerText = fileName == null ? "Nothing" : fileName;
+    const setEditerImage = (bytes: any) => {
+        setEditer(prev => { 
+            return {
+                ...prev,
+                image: bytes
+            }
+        })
+    }
+    
+    const getFileBytes = (files) => {        
+        let labelFileName = document.querySelector('#loadImageName') as HTMLSpanElement;
+        selectImageBytesFromFile(files[0], labelFileName, setEditerImage);
       }
 
     if (!editer.visible) return null;
 
     return (
-        <div className="edit-author-modal-back">
-            <div className="edit-author-form" >
-                <h2>Редактирование автора:</h2>
-                <button className='common-btn' onClick={editer.onClose}>Закрыть</button>
+        <div className="modal-back">
+            <div className="modal-form edit-author-form" style={{width: '500px', height: '500px'}}>
+                <h2>{words.actions.editAuthor}:</h2>
+                <button className='common-btn' onClick={editer.onClose}>{words.actions.close}</button>
                 <form onSubmit={submitCheckin}>
-                    <p>Имя:</p>
+                    <p>{words.tags.author.properties.firstname}:</p>
                     <input type="text" id="firstname" name="firstname" value={editer.firstname} onChange={changeInputRegister} />
                     
-                    <p>Фамилия:</p>
+                    <p>{words.tags.author.properties.lastname}:</p>
                     <input type="text" id="lastname" name="lastname" value={editer.lastname} onChange={changeInputRegister} />
                     
-                    <p>Почта:</p>
+                    <p>{words.tags.author.properties.email}:</p>
                     <input type="text" id="email" name="email" value={editer.email} onChange={changeInputRegister} />
                     
-                    <p>Фото:</p>
+                    <p>{words.words.common.image}:</p>
                     <div className='load-file-btn'>
                         <label>
                             <input type="file" accept="image/*"  id="loadImage" name="image" onChange={(e) => getFileBytes(e.target.files)} />
-                            <span id="loadImageName">Выберите файл</span>
+                            <span id="loadImageName">{words.actions.selectFile}</span>
                         </label>
                     </div>
                     
-                    <p>Описание:</p>
+                    <p>{words.tags.author.properties.description}:</p>
                     <textarea id="description" name="description" value={editer.description} onChange={changeInputRegister} />
                     
-                    <p>Ключевые слова (через пробел):</p>
+                    <p>{words.tags.author.properties.keywords} {words.tags.author.properties.keywordsAt}:</p>
                     <textarea id="keywords" name="keywords" value={editer.keywords} onChange={changeInputRegister} />
                     
-                    <p>Пароль:</p>
+                    <p>{words.tags.author.properties.password}:</p>
                     <input type="password" id="password" name="password" value={editer.password} onChange={changeInputRegister}/>
 
-                    <p>Повторите пароль:</p>
+                    <p>{words.actions.passwordRepeat}:</p>
                     <input type="password" id="password2" name="password2" value={editer.password2} onChange={changeInputRegister} />
                     
                     <input className='common-btn' type="submit" />

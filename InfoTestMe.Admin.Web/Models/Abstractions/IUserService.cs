@@ -11,5 +11,6 @@ namespace InfoTestMe.Admin.Web.Models.Abstractions
         bool EnterToCourse(User user, int courseId);
         bool OutCourse(User user, int courseId);
         User GetUserByLogin(string login);
+        UserDTO GetUserDTOByLogin(string login);
     }
 }

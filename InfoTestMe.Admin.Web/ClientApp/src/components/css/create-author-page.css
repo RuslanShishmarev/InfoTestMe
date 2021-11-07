@@ -1,0 +1,16 @@
+.create-author-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+    height: 100%;
+}
+
+.create-author-form form input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.create-author-form form textarea {
+    width: 100%;
+}

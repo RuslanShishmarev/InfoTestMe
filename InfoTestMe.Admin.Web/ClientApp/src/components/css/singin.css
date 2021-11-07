@@ -6,7 +6,13 @@
 }
 .singin-form form {
     margin: 10px 0;
+    display: flex;
+    flex-direction: column;
 }
 .singin-form form input {
     text-align: center;
+}
+
+.singin-form form input[type="submit"] {
+    margin: 10px 0;
 }

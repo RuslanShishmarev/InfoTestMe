@@ -1,9 +1,5 @@
 ﻿using InfoTestMe.Common.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace InfoTestMe.Admin.Web.Models.Data.Extensions
 {
@@ -11,7 +7,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
     {
         public static CourseDTO ToDTO(this Course course)
         {
-            return new CourseDTO()
+            return new CourseDTO
             {
                 Id = course.Id,
                 Name = course.Name,
@@ -19,6 +15,19 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Image = course.Image,
                 Themes = course.Themes?.Select(c => c.ToDTO()).ToList(),
                 AllStudents = course.Users?.Select(c => c.ToShortDTO()).ToList(),
+                CreationDate = course.CreationDate
+            };
+        }
+
+        public static AuthorProductDTO ToShortDTO(this Course course)
+        {
+            return new AuthorProductDTO
+            {
+                Id = course.Id,
+                Name = course.Name,
+                Description = course.Description,
+                Image = course.Image,
+                CreationDate = course.CreationDate
             };
         }
     }

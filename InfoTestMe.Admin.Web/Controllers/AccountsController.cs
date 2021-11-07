@@ -195,18 +195,10 @@ namespace InfoTestMe.Admin.Web.Controllers
         public object GetCurrent(string type)
         {
             if(type == "user")
-            {
-                User currentUser = _userService.GetUserByLogin(HttpContext.User.Identity.Name);
-                if (currentUser != null)
-                    return currentUser.ToDTO();
-            }
+                return _userService.GetUserDTOByLogin(HttpContext.User.Identity.Name);
 
             if (type == "author")
-            {
-                Author currentAuthor = _authorService.GetAuthorByLogin(HttpContext.User.Identity.Name);
-                if (currentAuthor != null)
-                    return currentAuthor.ToDTO();
-            }
+                return _authorService.GetAuthorDTOByLogin(HttpContext.User.Identity.Name);            
 
             return null;
         }

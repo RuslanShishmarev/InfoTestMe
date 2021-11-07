@@ -2,6 +2,7 @@
 using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Common.Models;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,11 @@ namespace InfoTestMe.Admin.Web.Services
         public Author GetAuthorByLogin(string login)
         {
             return DB.Authors.FirstOrDefault(a => a.Email == login);
+        }
+
+        public AuthorDTO GetAuthorDTOByLogin(string login)
+        {
+            return DB.Authors.Include(a => a.Courses).Include(a => a.Tests).FirstOrDefault(a => a.Email == login)?.ToDTO();
         }
 
         public bool IsExistAuthor(string email)

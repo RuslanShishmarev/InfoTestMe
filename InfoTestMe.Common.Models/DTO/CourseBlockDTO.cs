@@ -7,6 +7,6 @@ namespace InfoTestMe.Common.Models
         public int Id { get; set; }
         public int PageId { get; set; }
         public string Text { get; set; }
-        public byte[] Image { get; set; }
+        public object Image { get; set; }
     }
 }

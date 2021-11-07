@@ -1,29 +1,9 @@
-/* request */
 import requestUrl from '../../../RequestUrls.json';
+import words from '../../../LetterMessages.json';
 
-export async function doActionWithDataByUrlWithToken(url: string, methodType: string, body: any | null) {
+export async function getDataByUrlWithHTTPMethod(url: string, methodType: string, body: any | null) {
 
-    let sinInDateStr = sessionStorage.getItem('singin-time');
-    let now = Date.now();
-    let singInAsDate = sinInDateStr !== null ? Number.parseInt(sinInDateStr) :  Date.now();
-
-    let workTime = now - singInAsDate;
-
-    if(workTime > 540000) {
-        let login = sessionStorage.getItem('login');
-        let password = sessionStorage.getItem('password');
-    
-        
-        if(login !== null && password !== null ) {
-            let newToken = await getToken(login, password);
-            sessionStorage.setItem('singin-time', Date.now().toString());
-            if(newToken !== null) sessionStorage.setItem('token', newToken );
-        } else {
-            window.location.replace(`/singin`);
-            return;
-        }
-    }
-    
+    await updateToken();
 
     let requestOptions;
 
@@ -49,7 +29,47 @@ export async function doActionWithDataByUrlWithToken(url: string, methodType: st
         let json = await response.json();
         return json;
     } else {
-        window.location.replace(`/singin`)
+        alert(words.messages.request.error + " " + response.status)
+    }
+}
+
+export async function sendBodyDataByUrl(url:string, methodType: string, body: any, actionOkResponse: () => void) {
+
+    await updateToken();
+
+    const requestOptions = {
+        method: methodType,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),            
+        },
+        body: JSON.stringify(body)
+    } 
+
+    let response = await fetch(`` + url, requestOptions);
+    if(response.ok){
+        actionOkResponse();
+    } else {
+        alert(words.messages.request.error + " " + response.status)
+    }
+}
+
+export async function deleteDataByIdDataAndUrl(url:string, id: number, actionOkResponse: () => void) {
+
+    await updateToken();
+
+    let requestOptions = {
+        method: requestUrl.methods.delete,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token'),            
+        }
+    }
+    let response = await fetch(`` + url + '/' + id, requestOptions);
+    if(response.ok){
+        actionOkResponse();
+    } else {
+        alert(words.messages.request.error + " " + response.status)
     }
 }
 
@@ -79,4 +99,27 @@ export async function getToken(login: string, password: string) {
     sessionStorage.setItem("singin-time", Date.now().toString());
     
     return token;
+}
+
+async function updateToken() {
+    
+    let sinInDateStr = sessionStorage.getItem('singin-time');
+    let now = Date.now();
+    let singInAsDate = sinInDateStr !== null ? Number.parseInt(sinInDateStr) :  Date.now();
+
+    let workTime = now - singInAsDate;
+
+    if(workTime > 540000) {
+        let login = sessionStorage.getItem('login');
+        let password = sessionStorage.getItem('password');    
+        
+        if(login !== null && password !== null ) {
+            let newToken = await getToken(login, password);
+            sessionStorage.setItem('singin-time', Date.now().toString());
+            if(newToken !== null) sessionStorage.setItem('token', newToken );
+        } else {
+            window.location.replace(`/singin`);
+            return;
+        }
+    }
 }

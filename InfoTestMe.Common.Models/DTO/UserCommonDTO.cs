@@ -15,8 +15,8 @@ namespace InfoTestMe.Common.Models
         public string Password { get; set; }
         public DateTime RegistrationDate { get; set; }
         public object Image { get; set; }
-        public List<int> Courses { get; set; }
-        public List<int> Tests { get; set; }
+        public List<AuthorProductDTO> Courses { get; set; }
+        public List<AuthorProductDTO> Tests { get; set; }
 
         public override string ToString()
         {

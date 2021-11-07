@@ -20,8 +20,8 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 KeyWords = JsonConvert.DeserializeObject<string[]>(author.KeyWords),
                 RegistrationDate = (DateTime)(author?.RegistrationDate),
                 Image = author.Image,
-                Courses = author.Courses?.Select(c => c.Id).ToList(),
-                Tests = author.Tests?.Select(c => c.Id).ToList(),
+                Courses = author.Courses?.Select(c => c.ToShortDTO()).ToList(),
+                Tests = author.Tests?.Select(t => t.ToShortDTO()).ToList(),
             };
         }
         public static AuthorShortDTO ToShortDTO(this Author author)

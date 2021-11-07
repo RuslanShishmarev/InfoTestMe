@@ -68,5 +68,10 @@ namespace InfoTestMe.Admin.Web.Services
         {
             return DeleteActionData(DeleteTheme, id);
         }
+
+        public async Task<IEnumerable<CourseThemeDTO>> GetAllThemeByCourseId(int courseId)
+        {
+            return await DB.CourseThemes.Where(t => t.CourseId == courseId).Select(t => t.ToDTO()).ToListAsync();
+        }
     }
 }

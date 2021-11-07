@@ -3,6 +3,7 @@ import { useState } from 'react';
 import requestUrl from '../RequestUrls.json';
 import { getToken } from './js/services/CommonRequestService';
 import './css/singin.css';
+import words from '../LetterMessages.json';
 
 export default function SingIn() {
 
@@ -33,11 +34,11 @@ export default function SingIn() {
 
     return (
         <div className="singin-form">
-            <h2>Авторизация</h2>
+            <h2>{words.actions.singin}</h2>
             <form onSubmit={submitSingIn}>
-                <p>Email:</p>
+                <p>{words.tags.author.properties.email}:</p>
                 <input type="text" id="email" name="email" value={singIn.email} onChange={changeInputSingIn} />                
-                <p>Password:</p>
+                <p>{words.tags.author.properties.password}:</p>
                 <input type="password" id="password" name="password" value={singIn.password} onChange={changeInputSingIn} />
                 <input className='common-btn' type="submit" />
             </form>

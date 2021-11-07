@@ -12,5 +12,11 @@
         "update": "api/accounts/author",
         "singin": "api/accounts/token?type=author",
         "delete": "api/accounts/author/"
+    },
+    "course": {
+        "get": "api/courses/",
+        "create": "api/courses/",
+        "update": "api/courses/",
+        "delete": "api/courses/"
     }
 }

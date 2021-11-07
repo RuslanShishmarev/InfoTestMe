@@ -20,8 +20,8 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Password = user.Password,
                 RegistrationDate = user.RegistrationDate,
                 Image = user.Image,
-                Courses = user.Courses?.Select(c => c.Id).ToList(),
-                Tests = user.Tests?.Select(c => c.Id).ToList(),
+                Courses = user.Courses?.Select(c => c.ToShortDTO()).ToList(),
+                Tests = user.Tests?.Select(c => c.ToShortDTO()).ToList(),
             };
         }
         public static UserShortDTO ToShortDTO(this User user)

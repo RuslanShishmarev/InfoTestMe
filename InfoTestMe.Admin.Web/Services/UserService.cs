@@ -3,6 +3,7 @@ using InfoTestMe.Admin.Web.Models.Data;
 using InfoTestMe.Admin.Web.Models.Data.Extensions;
 using InfoTestMe.Common.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -122,12 +123,16 @@ namespace InfoTestMe.Admin.Web.Services
         public ClaimsIdentity GetIdentity(string username, string password, UserType type)
         {
             UserCommon currentUser = null;
+            string role = UserType.User.ToString();
 
             if (type == UserType.User)
                 currentUser = GetUser(username, password);
 
             if (type == UserType.Author)
+            {
                 currentUser = GetAuthor(username, password);
+                role = UserType.Author.ToString();
+            }
 
             if (currentUser != null)
             {
@@ -144,6 +149,7 @@ namespace InfoTestMe.Admin.Web.Services
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimsIdentity.DefaultNameClaimType, currentUser.Email),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, role)
                 };
                 ClaimsIdentity claimsIdentity =
                 new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
@@ -221,6 +227,11 @@ namespace InfoTestMe.Admin.Web.Services
         public User GetUserByLogin(string login)
         {
             return DB.Users.FirstOrDefault(u => u.Email == login);
+        }
+
+        public UserDTO GetUserDTOByLogin(string login)
+        {
+            return DB.Users.Include(u => u.Courses).Include(u => u.Tests).FirstOrDefault(u => u.Email == login)?.ToDTO();
         }
 
         public bool OutCourse(User user, int courseId)

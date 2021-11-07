@@ -1,31 +1,21 @@
-import {doActionWithDataByUrlWithToken} from './CommonRequestService'
+import {getDataByUrlWithHTTPMethod, sendBodyDataByUrl, deleteDataByIdDataAndUrl} from './CommonRequestService'
 import requestUrl from '../../../RequestUrls.json';
+import { AuthorBodyModel } from '../../interfaces/IAuthor';
 
 export async function getAuthor(){    
-    let authorResponse = await doActionWithDataByUrlWithToken(requestUrl.author.get, requestUrl.methods.get, null);    
+    let authorResponse = await getDataByUrlWithHTTPMethod(requestUrl.author.get, requestUrl.methods.get, null);    
     return authorResponse;
 }
 
 
-export interface AuthorBody {
-    id: number,
-    firstname: string,
-    lastname: string,
-    email: string,
-    description: string,
-    keywords: string[],
-    image: Uint8Array,
-    password: string,
+export async function createAuthor(authorBody: AuthorBodyModel, action: () => void){
+    await sendBodyDataByUrl(requestUrl.author.create, requestUrl.methods.post, authorBody, action);
 }
 
-export async function createAuthor(authorBody: AuthorBody){
-    await doActionWithDataByUrlWithToken(requestUrl.author.create, requestUrl.methods.post, authorBody);
+export async function updateAuthor(authorBody: AuthorBodyModel, action: () => void){
+    await sendBodyDataByUrl(requestUrl.author.update, requestUrl.methods.patch, authorBody, action);
 }
 
-export async function updateAuthor(authorBody: AuthorBody){
-    await doActionWithDataByUrlWithToken(requestUrl.author.update, requestUrl.methods.patch, authorBody);
-}
-
-export async function deleteAuthor(authorId: number){
-    await doActionWithDataByUrlWithToken(requestUrl.author.delete + authorId, requestUrl.methods.delete, null);
+export async function deleteAuthor(authorId: number, action: () => void){
+    await deleteDataByIdDataAndUrl(requestUrl.author.delete, authorId, action);
 }

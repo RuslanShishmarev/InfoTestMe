@@ -16,5 +16,17 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 AllStudents = test.Users?.Select(c => c.ToShortDTO()).ToList(),
             };
         }
+
+        public static AuthorProductDTO ToShortDTO(this Test test)
+        {
+            return new AuthorProductDTO
+            {
+                Id = test.Id,
+                Name = test.Name,
+                Description = test.Description,
+                Image = test.Image,
+                CreationDate = test.CreationDate
+            };
+        }
     }
 }

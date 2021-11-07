@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace InfoTestMe.Admin.Web.Services
 {
     public class CourseService : CommonService<CourseDTO>, ICourseService
     {
+        private FileService _fileService = new FileService();
         public CourseService(InfoTestMeDataContext db) : base(db) { }
 
         #region PRIVATE METHODS
@@ -29,7 +29,8 @@ namespace InfoTestMe.Admin.Web.Services
                 AuthorId = dto.AuthorId,
                 Name = dto.Name,
                 Description = dto.Description,
-                Image = dto.Image
+                Image = _fileService.GetByteArrayFromJson(dto.Image?.ToString()),
+                CreationDate = DateTime.Now
             };
             DB.Courses.Add(course);
 
@@ -59,7 +60,7 @@ namespace InfoTestMe.Admin.Web.Services
 
             course.Name = dto.Name;
             course.Description = dto.Description;
-            course.Image = dto.Image;
+            course.Image = _fileService.GetByteArrayFromJson(dto.Image?.ToString());
 
             DB.Courses.Update(course);
         }
@@ -93,14 +94,14 @@ namespace InfoTestMe.Admin.Web.Services
             return DeleteActionData(DeleteCourse, id);
         }
 
-        public IEnumerable<CourseDTO> GetByAuthorId(int authorId)
+        public async Task<IEnumerable<AuthorProductDTO>> GetByAuthorId(int authorId)
         {
-            return DB.Courses.Include(c => c.Themes).Where(c => c.AuthorId == authorId).Select(c => c.ToDTO());
+            return await DB.Courses.Where(c => c.AuthorId == authorId).Select(c => c.ToShortDTO()).ToListAsync();
         }
 
-        public IEnumerable<CourseDTO> GetByUserId(int userId)
+        public async Task<IEnumerable<AuthorProductDTO>> GetByUserId(int userId)
         {
-            return DB.Courses.Include(c => c.Themes).Include(c => c.Users).Where(c => c.Users.Any(u => u.Id == userId)).Select(c => c.ToDTO());
+            return await DB.Courses.Include(c => c.Users).Where(c => c.Users.Any(u => u.Id == userId)).Select(c => c.ToShortDTO()).ToListAsync();
         }
     }
 }
