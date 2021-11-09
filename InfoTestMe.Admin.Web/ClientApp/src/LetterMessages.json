@@ -42,7 +42,8 @@
         "editTest": "Edit test",
         "passwordRepeat": "Repeat password",
         "authorization": "Authorization",
-        "singin": "Sing in"
+        "singin": "Sing in",
+        "addNewTheme": "Add new theme"
     },
     "tags": {
         "author": {

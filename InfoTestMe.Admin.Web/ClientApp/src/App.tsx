@@ -5,6 +5,7 @@ import Home from './components/Home';
 import Register from './components/Register';
 import SingIn from './components/SingIn';
 import AuthorPage from './components/AuthorPage';
+import CourseEditorPage from './components/course/course-editor/CourseEditorPage';
 
 
 import './custom.css'
@@ -16,5 +17,6 @@ export default () => (
         <Route path='/register' component={Register} />
         <Route path='/singin' component={SingIn} />
         <Route path='/mypage' component={AuthorPage} />
+        <Route path='/courseEditor' component={CourseEditorPage}/>
     </Layout>
 );

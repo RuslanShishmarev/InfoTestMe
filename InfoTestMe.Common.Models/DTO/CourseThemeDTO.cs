@@ -8,6 +8,6 @@ namespace InfoTestMe.Common.Models
         public int Id { get; set; }
         public int CourseId { get; set; }
         public string Name { get; set; }
-        public List<int> Pages { get; set; }
+        public List<CoursePageShortDTO> Pages { get; set; }
     }
 }

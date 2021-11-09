@@ -12,7 +12,7 @@ namespace InfoTestMe.Admin.Web.Models.Data.Extensions
                 Id = courseTheme.Id,
                 CourseId = courseTheme.CourseId,
                 Name = courseTheme.Name,
-                Pages = courseTheme.Pages?.Select(c => c.Id).ToList(),
+                Pages = courseTheme.Pages?.Select(c => c.ToShortDTO()).ToList(),
             };
         }
     }
