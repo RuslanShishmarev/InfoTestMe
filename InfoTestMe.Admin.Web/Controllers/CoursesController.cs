@@ -112,6 +112,23 @@ namespace InfoTestMe.Admin.Web.Controllers
         }
 
         /// <summary>
+        /// Создание темы
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("theme")]
+        public ActionResult<int> CreateTheme(CourseThemeDTO themeDTO)
+        {
+            if (themeDTO != null)
+            {
+                int id = _courseThemeService.CreateThemeAndGetId(themeDTO);
+
+                return Ok(id);
+            }
+            return BadRequest();
+        }
+
+        /// <summary>
         /// Получение страницы курса по id страницы
         /// </summary>
         /// <param name="id"></param>

@@ -17,6 +17,6 @@ export default () => (
         <Route path='/register' component={Register} />
         <Route path='/singin' component={SingIn} />
         <Route path='/mypage' component={AuthorPage} />
-        <Route path='/courseEditor' component={CourseEditorPage}/>
+        <Route path='/courseEditor/:id' component={CourseEditorPage}/>
     </Layout>
 );

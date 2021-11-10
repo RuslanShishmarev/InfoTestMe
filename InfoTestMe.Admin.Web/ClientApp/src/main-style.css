@@ -1,5 +1,13 @@
 
 /*components*/
+
+.btn {
+    margin: 0;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+}
+
 .common-btn {
     background: white;
     border: 1px solid black;
@@ -9,7 +17,7 @@
     cursor: pointer;
 }
 
-.common-btn:hover {
+.common-btn:hover, .btn:hover {
     background: black;
     color: white;
 }

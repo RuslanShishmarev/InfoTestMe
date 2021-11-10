@@ -73,5 +73,20 @@ namespace InfoTestMe.Admin.Web.Services
         {
             return await DB.CourseThemes.Where(t => t.CourseId == courseId).Select(t => t.ToDTO()).ToListAsync();
         }
+
+        public int CreateThemeAndGetId(CourseThemeDTO themeDTO)
+        {
+            CourseTheme courseTheme = new CourseTheme()
+            {
+                CourseId = themeDTO.CourseId,
+                Name = themeDTO.Name
+            };
+
+            DB.CourseThemes.Add(courseTheme);
+
+            DB.SaveChanges();
+
+            return courseTheme.Id;
+        }
     }
 }

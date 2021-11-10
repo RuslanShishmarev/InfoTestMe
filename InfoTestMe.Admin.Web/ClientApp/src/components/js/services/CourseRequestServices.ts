@@ -1,11 +1,11 @@
 import {getDataByUrlWithHTTPMethod, sendBodyDataByUrl, deleteDataByIdDataAndUrl} from './CommonRequestService'
 import requestUrl from '../../../RequestUrls.json';
-import {CourseBodyModel} from '../../interfaces/ICourse';
+import {CourseBodyModel, CourseThemeModel} from '../../interfaces/ICourse';
 
 
-export async function getCourse(){    
-    let authorResponse = await getDataByUrlWithHTTPMethod(requestUrl.course.get, requestUrl.methods.get, null);
-    return authorResponse;
+export async function getCourse(id: number){    
+    let response = await getDataByUrlWithHTTPMethod(requestUrl.course.get + `/${id}`, requestUrl.methods.get, null);
+    return response;
 }
 
 export async function createCourse(courseBody: CourseBodyModel, action: () => void) {
@@ -18,4 +18,9 @@ export async function updateCourse(courseBody: CourseBodyModel, action: () => vo
 
 export async function deleteCourse(courseId: number, action: () => void) {
     await deleteDataByIdDataAndUrl(requestUrl.author.delete, courseId, action);
+}
+
+export async function createTheme(newTheme: CourseThemeModel) {
+    let newThemeId = await getDataByUrlWithHTTPMethod(requestUrl.courseTheme.create, requestUrl.methods.post, newTheme);
+    return newThemeId;
 }

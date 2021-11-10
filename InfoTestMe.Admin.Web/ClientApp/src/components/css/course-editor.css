@@ -59,3 +59,13 @@
     flex-direction: column;
     padding-left: 20px;
 }
+
+.page-item-btn {
+    border-radius: 5px;
+}
+
+.page-item-btn {
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+}

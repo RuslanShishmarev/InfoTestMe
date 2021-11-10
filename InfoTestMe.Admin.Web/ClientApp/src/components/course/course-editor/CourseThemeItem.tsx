@@ -1,30 +1,41 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { CoursePageShortModel } from '../../interfaces/ICourse';
 
 const CourseThemeItem = ({
-    name = ''
+    id = 0,
+    name = ''    
 }) => {
     
     const [theme, setTheme] = useState(() => {
         return {
+            id: 0,
             name: '',
             pages: []
         }
     });
 
+    theme.id = id;
     theme.name = name;
 
     const addNewPage = () => {
-        let newPage = {
+        let newPage: CoursePageShortModel = {
+            id: 0,
+            themeId: theme.id,
             name: "New page 1"
         };
+        
+        
+        if(theme.id !== 0) {
+            //send to backend new theme
+            let newPageId = 0;
+            newPage.id = newPageId;
+        }
 
-        let newPages = theme.pages;
-        newPages.push(newPage);
-        /* send to backend new theme
-        ...
-        */
         //update ui
+        let newPages = theme.pages;
+        (newPages as CoursePageShortModel[]).push(newPage);
+        
         setTheme(prev => {
             return {
                 ...prev,
@@ -42,7 +53,7 @@ const CourseThemeItem = ({
             <div className="theme-pages">
                 {theme.pages.map(p => {
                     return (
-                        <button className="common-btn page-item-btn">{p.name}</button>
+                        <button className="btn page-item-btn">{(p as CoursePageShortModel).name}</button>
                     );
                 })}
             </div>

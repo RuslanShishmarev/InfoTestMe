@@ -29,6 +29,10 @@ class AuthorPage extends React.Component {
         this.loadData()
     };
 
+    openCourseEditor(courseId: number) {
+        window.location.replace(`/courseEditor/` + courseId)
+    }
+
     async loadData() {
 
         let authorInfo = await getAuthor();
@@ -37,7 +41,7 @@ class AuthorPage extends React.Component {
 
             const coursesAsBtns = (authorInfo.courses as CourseBodyModel[]).map(course => {
                 return (
-                    <button key={course.id} className='round-btn' title={course.description.slice(0, 100)}>{course.name}</button>
+                    <button key={course.id} className='round-btn' title={course.description.slice(0, 100)} onClick={() => this.openCourseEditor(course.id)}>{course.name}</button>
                 );
             });
 

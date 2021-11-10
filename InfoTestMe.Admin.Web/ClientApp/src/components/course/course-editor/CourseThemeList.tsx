@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { CourseThemeListModel,CourseThemeModel} from '../../interfaces/ICourse';
 import CourseThemeItem from './CourseThemeItem';
 import words from '../../../LetterMessages.json';
+import { createTheme } from '../../js/services/CourseRequestServices';
+
 
 const CourseThemeList = ({courseId = 0}) => {
         const [themeList, setThemeList] = useState(() => {
@@ -15,19 +17,24 @@ const CourseThemeList = ({courseId = 0}) => {
         themeList.courseId = courseId;
 
 
-        const addNewTheme = () => {
+        const addNewTheme = async () => {
 
-            let newTheme = {
-                id: themeList.themes.length + 1,
-                name: "New theme 1"
+            let newTheme: CourseThemeModel = {
+                id: 0,
+                courseId: themeList.courseId,
+                name: "New theme 1",
+                pages: []
             };
-
-            let newThemes = themeList.themes;
-            newThemes.push(newTheme);
-            /* send to backend new theme
-            ...
-            */
+            /* send to backend new theme*/
+            let newThemeId = 0;
+            if(themeList.courseId != 0)
+                newThemeId = await createTheme(newTheme);
+            
+            newTheme.id = newThemeId;
             //update ui
+            let newThemes = themeList.themes;
+            (newThemes as CourseThemeModel[]).push(newTheme);
+            
             setThemeList(prev => {
                 return {
                     ...prev,
@@ -40,8 +47,8 @@ const CourseThemeList = ({courseId = 0}) => {
             <div className="course-themes">
                 <button className="common-btn" onClick={addNewTheme}>{words.actions.addNewTheme}</button>
                 <div className="course-themes-list">
-                    {themeList.themes.map(obj => {
-                        return <CourseThemeItem key={obj.id} name={obj.name}/>
+                    {(themeList.themes as CourseThemeModel[]).map(obj => {
+                        return <CourseThemeItem key={obj.id} id={obj.id} name={obj.name}/>
                     })}
                 </div>
             </div>

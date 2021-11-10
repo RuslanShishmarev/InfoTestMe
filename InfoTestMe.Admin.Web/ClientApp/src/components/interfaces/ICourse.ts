@@ -33,6 +33,7 @@ export interface CourseThemeCreateModel {
 
 export interface CourseThemeModel {
     id: number
+    courseId: number
     name: string
     pages: CoursePageShortModel[]
 }
