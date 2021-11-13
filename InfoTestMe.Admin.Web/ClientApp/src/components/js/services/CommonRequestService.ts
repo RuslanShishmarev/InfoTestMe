@@ -123,3 +123,9 @@ async function updateToken() {
         }
     }
 }
+
+export function isCurrentUserAuthorized() {
+    let token = sessionStorage.getItem('token');
+    if(token == '' || token == null) return false;
+    return true;
+}

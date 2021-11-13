@@ -6,7 +6,7 @@ import words from '../../../LetterMessages.json';
 import { createTheme } from '../../js/services/CourseRequestServices';
 
 
-const CourseThemeList = ({courseId = 0}) => {
+const CourseThemeList = ({courseId = 0, themes = []}) => {
         const [themeList, setThemeList] = useState(() => {
             return {
                 courseId: 0,
@@ -15,7 +15,7 @@ const CourseThemeList = ({courseId = 0}) => {
         });
 
         themeList.courseId = courseId;
-
+        themeList.themes = themes as  CourseThemeModel[];
 
         const addNewTheme = async () => {
 
@@ -45,10 +45,10 @@ const CourseThemeList = ({courseId = 0}) => {
 
         return (
             <div className="course-themes">
-                <button className="common-btn" onClick={addNewTheme}>{words.actions.addNewTheme}</button>
+                <button className="common-btn" onClick={() => addNewTheme}>{words.actions.addNewTheme}</button>
                 <div className="course-themes-list">
                     {(themeList.themes as CourseThemeModel[]).map(obj => {
-                        return <CourseThemeItem key={obj.id} id={obj.id} name={obj.name}/>
+                        return <CourseThemeItem key={obj.id} id={obj.id} name={obj.name} courseId={themeList.courseId} pages={obj.pages}/>
                     })}
                 </div>
             </div>

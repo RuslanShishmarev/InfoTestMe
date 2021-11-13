@@ -20,9 +20,13 @@
         "delete": "api/courses/"
     },
     "courseTheme": {
-        "get": "api/courses/theme",
-        "create": "api/courses/theme",
-        "update": "api/courses/theme",
-        "delete": "api/courses/theme"
+        "create": "api/themes",
+        "update": "api/themes",
+        "delete": "api/themes"
+    },
+    "coursePage": {
+        "create": "api/pages",
+        "update": "api/pages",
+        "delete": "api/pages"
     }
 }

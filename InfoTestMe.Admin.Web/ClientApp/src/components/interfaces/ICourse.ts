@@ -15,7 +15,13 @@ export interface CourseBodyModel {
     description: string
     image: Uint8Array
 }
-
+export interface CourseFullBodyModel {
+    id: number
+    name: string
+    description: string
+    image: Uint8Array
+    themes: CourseThemeModel[]
+}
 export interface CourseEditorModel {
     courseId: number
     name: string
@@ -47,12 +53,14 @@ export interface CourseThemeListModel {
 export interface CoursePageShortModel {
     id: number
     themeId: number
+    courseId: number
     name: string
 }
 
 export interface CoursePageModel {
     id: number
     themeId: number
+    courseId: number
     name: string
     link: string
     audioFileName: string
@@ -63,6 +71,7 @@ export interface CoursePageModel {
 export interface CourseBlockModel {
     id: number
     pageId: number
+    courseId: number
     text: string
     image: Uint8Array
 }

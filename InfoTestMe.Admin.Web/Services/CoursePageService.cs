@@ -126,5 +126,20 @@ namespace InfoTestMe.Admin.Web.Services
         {
             return await DB.CoursePages.Include(p => p.Blocks).Where(p => p.ThemeId == themeId).Select(p => p.ToDTO()).ToListAsync();
         }
+
+        public int CreatePageAndGetId(CoursePageDTO pageDTO)
+        {
+            CoursePage coursePage = new CoursePage()
+            {
+                ThemeId = pageDTO.ThemeId,
+                Name = pageDTO.Name
+            };
+
+            DB.CoursePages.Add(coursePage);
+
+            DB.SaveChanges();
+
+            return coursePage.Id;
+        }
     }
 }
